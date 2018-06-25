@@ -1,0 +1,146 @@
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Add Newlines when reaching EOF with next-line
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq next-line-add-newlines t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load Path
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Auto Save backup directory
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq backup-directory-alist
+	  `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+	  `((".*" ,temporary-file-directory t)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ENCODING
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(setq-default buffer-file-coding-system 'utf-8-unix)
+;; Treat clipboard input as UTF-8 string first; compund text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SET THEME
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(load-theme 'wombat t)
+
+
+(global-visual-line-mode 1); Proper line wrapping
+;; (global-hl-line-mode 1); Highlight current row
+(show-paren-mode 1); Matches parentheses and such in every mode
+(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
+(setq inhibit-splash-screen t); Disable splash screen
+(setq visible-bell t); Flashes on error
+
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(require 'package)
+(package-initialize)
+
+(add-to-list 'package-archives
+			 '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+;; Disable blinking cursor
+(setq visible-cursor nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LATEX STUFF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Spell check when entering latex-mode
+(require 'tex)
+;;(add-hook 'latex-mode-hook 'flyspell-mode)
+;;(add-hook 'latex-mode-hook 'flyspell-buffer)
+(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+(add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
+(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+(add-hook 'LaTeX-mode-hook (lambda () (flyspell-mode 1)))
+(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(normal-erase-is-backspace-mode 0)
+(c-set-offset 'case-label '+)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LANGUAGE TOOL
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(load-file "~/.emacs.d/langtool.el")
+(require 'langtool)
+
+(setq langtool-java-classpath "~/.emacs.d/LanguageTool-3.5/*")
+;;(setq langtool-language-tool-jar "~/.emacs.d/languagetool-commandline.jar")
+
+(global-set-key "\C-x4w" 'langtool-check-buffer)
+(global-set-key "\C-x4W" 'langtool-check-done)
+(global-set-key "\C-x4n" 'langtool-goto-next-error)
+(global-set-key "\C-x4p" 'langtool-goto-previous-error)
+(global-set-key "\C-x44" 'langtool-show-message-at-point)
+
+(setq langtool-java-bin "/usr/bin/java")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; C-Mode prettyness
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default c-basic-offset 4
+	      tab-width 4
+	      indent-tabs-mode t)
+
+;; Line-number mode format, linum 
+(require 'linum)
+;; use customized linum-format: add a addition space after the line number
+(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat "%" (number-to-string w) "d ")) line) 'face 'linum)))
+
+;; disable menubar
+(menu-bar-mode -1)
+
+;; Set TAB to indent in bibtex-mode
+(defun bibtex-mode-tab ()
+  (local-set-key (kbd "TAB") 'indent-for-tab-command)
+  )
+(add-hook 'bibtex-mode-hook 'bibtex-mode-tab)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MODIFIED KEYBINDINGS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "M-i") 'ido-goto-symbol)
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+(global-set-key (kbd "M-RET") 'open-line)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-r") 'replace-string)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; END
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+	("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'downcase-region 'disabled nil)
+
+(put 'upcase-region 'disabled nil)

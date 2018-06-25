@@ -1,0 +1,24 @@
+bind ctrl-v any pageDown 
+bind alt-v any pageUp 
+bind alt-shift-< any gotoPage(1) 
+bind alt-shift-> any gotoLastPage 
+bind ctrl-n any scrollDown(16) 
+bind ctrl-p any scrollUp(16) 
+bind ctrl-f any scrollRight(16) 
+bind ctrl-e any scrollRight(1000) 
+bind ctrl-b any scrollLeft(16) 
+bind ctrl-a any scrollLeft(1000)
+bind h any scrollLeft(16) 
+bind l any scrollRight(16) 
+bind k any scrollUp(16) 
+bind j any scrollDown(16) 
+bind ctrl-s any find
+bind - any zoomOut
+bind + any zoomIn
+bind = any zoomIn
+
+
+continuousView yes
+vectorAntialias yes
+
+ContinuousMode
