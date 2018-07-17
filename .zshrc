@@ -85,6 +85,8 @@ LS_COLORS=$LS_COLORS:'di=1;33:'; export LS_COLORS
 
 # set emacs keybinds for line editor
 bindkey -e
+# for some reason this emacs keybind is different. Set it. Set it nao.
+bindkey '^w' kill-region
 
 function autoretry()
 {
