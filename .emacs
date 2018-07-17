@@ -1,3 +1,21 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable linum-mode unless file too large
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-linum-mode 1)
+(defun buffer-too-big-p ()
+  (or (> (buffer-size) (* 5000 80))
+	  (> (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+		  (lambda ()
+			;; turn off `linum-mode' when there are more than 5000 lines
+			(if (buffer-too-big-p) (linum-mode -1))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlight Indents
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-to-list 'load-path "~/.emacs.d/highlight-indents/")
+(require 'highlight-indentation)
+(add-hook 'prog-mode-hook 'highlight-indentation-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Add Newlines when reaching EOF with next-line
@@ -71,6 +89,10 @@
 
 (normal-erase-is-backspace-mode 0)
 (c-set-offset 'case-label '+)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fill Column
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default fill-column 80)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; LANGUAGE TOOL
