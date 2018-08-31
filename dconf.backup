@@ -112,6 +112,13 @@ base=10
 source-units='degree'
 accuracy=9
 
+[org/gnome/gnome-screenshot]
+include-pointer=false
+include-border=true
+border-effect='none'
+delay=0
+last-save-directory='file:///home/kdharsee/Pictures'
+
 [org/gnome/nautilus/preferences]
 search-view='icon-view'
 default-folder-viewer='list-view'
@@ -131,7 +138,7 @@ default-zoom-level='small'
 document-directory=@ms 'file:///home/vax9/u26/kdharsee/courses/csc455/notes'
 
 [org/gnome/evince/default]
-window-ratio=(2.1411764705882352, 0.59501187648456055)
+window-ratio=(1.6127450980392157, 1.3308080808080809)
 continuous=true
 fullscreen=false
 show-sidebar=true
@@ -148,7 +155,7 @@ migrated=true
 
 [org/gnome/deja-dup]
 backend='file'
-prompt-check='2018-06-04T14:41:05.900010Z'
+prompt-check='disabled'
 
 [org/gnome/deja-dup/file]
 path='/home/kdharsee/deja-dup'
@@ -162,7 +169,7 @@ cursor-theme='DMZ-Black'
 document-font-name='Sans 11'
 scaling-factor=uint32 2
 gtk-im-module='gtk-im-context-simple'
-toolkit-accessibility=false
+toolkit-accessibility=true
 cursor-blink-time=52000
 icon-theme='suru'
 monospace-font-name='Ubuntu Mono 13'
@@ -311,6 +318,9 @@ secondary-color='#000000000000'
 [org/gnome/desktop/input-sources]
 sources=[('xkb', 'us')]
 xkb-options=@as []
+
+[org/gnome/orca]
+active-profile=['Default', 'default']
 
 [org/gnome/terminal/legacy]
 mnemonics-enabled=false
@@ -465,7 +475,7 @@ show-hud=['<Alt>']
 sort-column='name'
 clock-format='12h'
 sidebar-width=148
-window-position=(755, 367)
+window-position=(615, 511)
 show-size-column=true
 show-hidden=true
 window-size=(690, 517)
@@ -486,7 +496,7 @@ lock-on-lid=false
 
 [apps/update-manager]
 first-run=false
-launch-time=int64 1529416546
+launch-time=int64 1535626459
 
 [ca/desrt/dconf-editor]
 window-is-fullscreen=false
