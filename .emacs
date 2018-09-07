@@ -35,14 +35,20 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight Indents
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "~/.emacs.d/highlight-indents/")
-(require 'highlight-indentation)
-(add-hook 'prog-mode-hook 'highlight-indentation-mode)
+(if (file-exists-p "~/.emacs.d/highlight-indents/")
+    (progn (add-to-list 'load-path "~/.emacs.d/highlight-indents/")
+	   (require 'highlight-indentation)
+	   (add-hook 'prog-mode-hook 'highlight-indentation-mode) )
+  nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load Path
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
+(if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
+    (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
+	   (require 'langtool) )
+  nil)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto Save backup directory
