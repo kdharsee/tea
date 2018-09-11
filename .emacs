@@ -46,7 +46,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
     (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
-	   (require 'langtool) )
+	   (require 'langtool)
+	   (global-set-key "\C-x4w" 'langtool-check-buffer)
+	   (global-set-key "\C-x4W" 'langtool-check-done)
+	   (global-set-key "\C-x4n" 'langtool-goto-next-error)
+	   (global-set-key "\C-x4p" 'langtool-goto-previous-error)
+	   (global-set-key "\C-x44" 'langtool-show-message-at-point)
+
+	   (setq langtool-java-bin "/usr/bin/java")
+	   )
   nil)
 
 
@@ -99,15 +107,17 @@
 ;; LATEX STUFF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell check when entering latex-mode
-(require 'tex)
-;;(add-hook 'latex-mode-hook 'flyspell-mode)
-;;(add-hook 'latex-mode-hook 'flyspell-buffer)
-(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
-(add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
-(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
-(add-hook 'LaTeX-mode-hook (lambda () (flyspell-mode 1)))
-(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
-
+(if (require 'tex "" 1)
+    (progn 
+      ;;(add-hook 'latex-mode-hook 'flyspell-mode)
+      ;;(add-hook 'latex-mode-hook 'flyspell-buffer)
+      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+      (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
+      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-mode 1)))
+      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer))) )
+  nil
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -117,22 +127,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default fill-column 80)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; LANGUAGE TOOL
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load-file "~/.emacs.d/langtool.el")
-(require 'langtool)
-
-(setq langtool-java-classpath "~/.emacs.d/LanguageTool-3.5/*")
-;;(setq langtool-language-tool-jar "~/.emacs.d/languagetool-commandline.jar")
-
-(global-set-key "\C-x4w" 'langtool-check-buffer)
-(global-set-key "\C-x4W" 'langtool-check-done)
-(global-set-key "\C-x4n" 'langtool-goto-next-error)
-(global-set-key "\C-x4p" 'langtool-goto-previous-error)
-(global-set-key "\C-x44" 'langtool-show-message-at-point)
-
-(setq langtool-java-bin "/usr/bin/java")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
