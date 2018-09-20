@@ -21,4 +21,4 @@ bind = any zoomIn
 continuousView yes
 vectorAntialias yes
 
-ContinuousMode
+continuousMode
