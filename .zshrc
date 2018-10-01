@@ -14,7 +14,7 @@ autoload -U select-word-style
 select-word-style bash
 
 # ADD local opt to path
-export PATH=$PATH:$HOME/opt/bin
+export PATH=$HOME/opt/bin:$PATH
 
 # History
 export HISTSIZE=2000
@@ -26,10 +26,14 @@ setopt hist_ignore_space
 # zsh autosend SIGCONT after disown
 setopt AUTO_CONTINUE
 
-# Start emacs server
-\emacs --daemon -nw
+# Start emacs server if it's not started
+if [ ! ( test -e "/tmp/emacs1000/server" || test -e "~/.emacs.d/server" ) ]
+then
+	\emacs --daemon -nw
+fi
 
 # Define aliases
+alias ffind='find ./* -name'
 alias clip='xclip -selection c'
 alias sudo='sudo '
 alias mv='mv -i'
