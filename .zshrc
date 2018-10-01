@@ -27,7 +27,8 @@ setopt hist_ignore_space
 setopt AUTO_CONTINUE
 
 # Start emacs server if it's not started
-if [ ! ( test -e "/tmp/emacs1000/server" || test -e "~/.emacs.d/server" ) ]
+test -e "/tmp/emacs1990/server" || test -e "~/.emacs.d/server"
+if [ $? -ne 0 ]
 then
 	\emacs --daemon -nw
 fi
