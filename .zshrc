@@ -34,6 +34,7 @@ then
 fi
 
 # Define aliases
+alias ctags='find . -type f -iname "*.[chS]" | xargs etags -a'
 alias ffind='find ./* -name'
 alias clip='xclip -selection c'
 alias sudo='sudo '
