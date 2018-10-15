@@ -1,0 +1,190 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Visual Bell adjustment
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq ring-bell-function
+      (lambda ()
+	(let ((orig-fg (face-foreground 'mode-line)))
+	  (set-face-foreground 'mode-line "#FF8040")
+	  (run-with-idle-timer 0 nil
+			       (lambda (fg) (set-face-foreground
+					     'mode-line fg)) orig-fg))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable Ido mode errwhere
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
+(defun ido-define-keys ()
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
+(add-hook 'ido-setup-hook 'ido-define-keys)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Enable linum-mode unless file too large
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-linum-mode 1)
+(defun buffer-too-big-p ()
+  (or (> (buffer-size) (* 5000 80))
+      (> (line-number-at-pos (point-max)) 5000)))
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    ;; turn off `linum-mode' when there are more than 5000 lines
+	    (if (buffer-too-big-p) (linum-mode -1))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Highlight Indents
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (file-exists-p "~/.emacs.d/highlight-indents/")
+    (progn (add-to-list 'load-path "~/.emacs.d/highlight-indents/")
+	   (require 'highlight-indentation)
+	   (add-hook 'prog-mode-hook 'highlight-indentation-mode) )
+  nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load Path
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
+    (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
+	   (require 'langtool)
+	   (global-set-key "\C-x4w" 'langtool-check-buffer)
+	   (global-set-key "\C-x4W" 'langtool-check-done)
+	   (global-set-key "\C-x4n" 'langtool-goto-next-error)
+	   (global-set-key "\C-x4p" 'langtool-goto-previous-error)
+	   (global-set-key "\C-x44" 'langtool-show-message-at-point)
+
+	   (setq langtool-java-bin "/usr/bin/java")
+	   )
+  nil)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Auto Save backup directory
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ENCODING
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(prefer-coding-system 'utf-8-unix)
+(set-default-coding-systems 'utf-8-unix)
+(setq-default buffer-file-coding-system 'utf-8-unix)
+;; Treat clipboard input as UTF-8 string first; compund text next, etc.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; SET THEME
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (file-exists-p "~/.emacs.d/color-theme/")
+	(progn (add-to-list 'load-path "~/.emacs.d/color-theme/")
+		   (require 'color-theme)
+		   (color-theme-charcoal-black)))
+
+
+(global-visual-line-mode 1); Proper line wrapping
+;; (global-hl-line-mode 1); Highlight current row
+(show-paren-mode 1); Matches parentheses and such in every mode
+(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
+(setq inhibit-splash-screen t); Disable splash screen
+(setq visible-bell t); Flashes on error
+
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+;; (require 'package)
+;; (package-initialize)
+
+;; (add-to-list 'package-archives
+;; 	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+
+;; Disable blinking cursor
+(setq visible-cursor nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; LATEX STUFF
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Spell check when entering latex-mode
+(if (require 'tex "" 1)
+    (progn 
+      ;;(add-hook 'latex-mode-hook 'flyspell-mode)
+      ;;(add-hook 'latex-mode-hook 'flyspell-buffer)
+      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+      (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
+      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
+      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-mode 1)))
+      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer))) )
+  nil
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(normal-erase-is-backspace-mode 0)
+(c-set-offset 'case-label '+)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Fill Column
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default fill-column 80)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; C-Mode prettyness
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq-default c-basic-offset 4
+	      tab-width 4
+	      indent-tabs-mode t)
+
+;; Line-number mode format, linum 
+(require 'linum)
+;; use customized linum-format: add a addition space after the line number
+(setq linum-format (lambda (line) (propertize (format (let ((w (length (number-to-string (count-lines (point-min) (point-max)))))) (concat "%" (number-to-string w) "d ")) line) 'face 'linum)))
+
+;; disable menubar
+(menu-bar-mode -1)
+
+;; Set TAB to indent in bibtex-mode
+(defun bibtex-mode-tab ()
+  (local-set-key (kbd "TAB") 'indent-for-tab-command)
+  )
+(add-hook 'bibtex-mode-hook 'bibtex-mode-tab)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MODIFIED KEYBINDINGS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(global-set-key (kbd "M-i") 'ido-goto-symbol)
+(global-set-key (kbd "C-?") 'help-command)
+(global-set-key (kbd "M-?") 'mark-paragraph)
+(global-set-key (kbd "C-h") 'delete-backward-char)
+(global-set-key (kbd "M-h") 'backward-kill-word)
+(global-set-key (kbd "M-RET") 'open-line)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-r") 'replace-regexp)
+(global-set-key (kbd "C-x {") 'shrink-window)
+(global-set-key (kbd "C-x }") 'enlarge-window)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; END
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'downcase-region 'disabled nil)
+
+(put 'upcase-region 'disabled nil)
