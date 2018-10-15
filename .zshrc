@@ -14,7 +14,7 @@ autoload -U select-word-style
 select-word-style bash
 
 # ADD local opt to path
-export PATH=$HOME/opt/bin:$PATH
+export PATH=$HOME/opt/bin:/usr/local/bin:$PATH
 
 # History
 export HISTSIZE=2000
