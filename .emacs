@@ -133,8 +133,8 @@
 ;; C-Mode prettyness
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default c-basic-offset 4
-	      tab-width 4
-	      indent-tabs-mode t)
+	      tab-width 2
+	      indent-tabs-mode nil)
 
 ;; Line-number mode format, linum 
 (require 'linum)
