@@ -135,9 +135,15 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C-Mode prettyness
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq-default c-basic-offset 4
+(setq-default c-basic-offset 2
 	      tab-width 2
 	      indent-tabs-mode nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Verilog-Mode Stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(add-hook 'verilog-mode-hook 
+		  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 
 ;; Line-number mode format, linum 
 (require 'linum)
