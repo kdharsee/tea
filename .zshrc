@@ -92,6 +92,50 @@ then
   export PROMPT='%F{cyan}[%n@%m]%f %F{blue}%~$%f '
 fi
 
+# Function to print a useful prompt
+prompt_command() {
+    local exit_status="$?"
+
+    # Color definitions
+    local normal="\e[0m"        # Normal color
+    local fGbBb="\e[1;32;44m"   # Green foreground, blue background, bold
+    local fYbBb="\e[1;33;44m"   # Yellow foreground, blue background, bold
+    local fP="\e[35m"           # Purple foreground
+    local fBb="\e[1;34m"        # Blue foreground, bold
+    local fY="\e[0;33m"         # Yellow foreground
+    local fR="\e[0;31m"         # Red foreground
+
+    # Set PS1
+    if [[ "$PS1" ]]; then
+        PS1="$fGbBb"
+        PS1="$PS1\u"                    # Username
+        PS1="$PS1$fYbBb"
+        PS1="$PS1@"                     # @
+        PS1="$PS1$fGbBb"
+        PS1="$PS1\h"                    # Hostname
+        PS1="$PS1$normal"
+        PS1="$PS1 "                     # <Space>
+        PS1="$PS1$fP"
+        PS1="${PS1}bash"                # bash
+        PS1="$PS1$normal"
+        PS1="$PS1 "                     # <Space>
+        PS1="$PS1$fBb"
+        PS1="$PS1\w"                    # PWD
+        PS1="$PS1$fY"
+        PS1="$PS1"`__git_ps1`           # Current Git branch name
+        PS1="$PS1$normal"
+        PS1="$PS1\n"                    # Newline
+        if [[ "$exit_status" != 0 ]]; then
+            PS1="$PS1$fR"
+        fi
+        PS1="$PS1\\$"                   # UID indicator
+        PS1="$PS1$normal"
+        PS1="$PS1 "                     # <Space>
+        export PS1
+    fi
+}
+#export PROMPT_COMMAND=prompt_command
+
 # DIR COLORS
 LS_COLORS=$LS_COLORS:'di=1;33:'; export LS_COLORS
 
