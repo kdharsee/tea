@@ -61,6 +61,8 @@ alias less='less -R'
 # Print history from the BEGINNING OF TIME
 alias history='history 1'
 
+# Set up display
+export DISPLAY='localhost:0.0'
 # Set default applications
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
