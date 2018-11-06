@@ -61,8 +61,11 @@ alias less='less -R'
 # Print history from the BEGINNING OF TIME
 alias history='history 1'
 
+# Alias for xpdf reverse video (dark) mode
+alias xpdf='xpdf -rv'
+
 # Set up display
-export DISPLAY='localhost:0.0'
+export DISPLAY=':0.0'
 # Set default applications
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
