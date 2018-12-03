@@ -149,6 +149,23 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'verilog-mode-hook 
 		  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+(custom-set-variables
+ '(verilog-align-ifelse t)
+ '(verilog-auto-delete-trailing-whitespace t)
+ '(verilog-auto-inst-param-value t)
+ '(verilog-auto-inst-vector nil)
+ '(verilog-auto-newline nil)
+ '(verilog-auto-save-policy nil)
+ '(verilog-auto-template-warn-unused t)
+ '(verilog-case-indent 3)
+ '(verilog-cexp-indent 3)
+ '(verilog-highlight-grouping-keywords t)
+ '(verilog-highlight-modules t)
+ '(verilog-indent-level 3)
+ '(verilog-indent-level-behavioral 3)
+ '(verilog-indent-level-declaration 3)
+ '(verilog-indent-level-module 0)
+ '(verilog-tab-to-comment t))
 
 ;; Line-number mode format, linum 
 (require 'linum)
