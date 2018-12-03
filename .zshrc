@@ -3,6 +3,9 @@ source /etc/zshrc
 # Set up i3lock screen
 # echo 'i3lock -c 000000 -n -e' >> /usr/bin/xflock4
 
+# URCS Print Server
+export CUPS_SERVER=print.cs.rochester.edu
+
 # List highlighting completion
 zstyle ':completion:*:*:git:*' menu select
 fpath=(/usr/loca/share/zsh-completions $fpath)
