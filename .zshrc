@@ -162,6 +162,6 @@ function autoretry()
 
 function sshretry()
 {
-    autoretry ssh "$@"
+    autoretry ssh -o "ConnectTimeout=2" "$@"
 }
 
