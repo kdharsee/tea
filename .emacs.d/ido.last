@@ -1,0 +1,84 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/kdharsee/hwbug_triggers/kbl009/" . "load_DR_syscall/")
+ ("/home/kdharsee/hwbug_triggers/utils/" . "cpuid/")
+ ("/home/kdharsee/hwbug_triggers/" . "utils/")
+ ("/home/kdharsee/SVAVMX/usr/src/sys/kern/" . "toy_hypervisor/")
+ ("/home/kdharsee/SVAVMX/usr/src/sys/amd64/" . "include/")
+ ("/home/kdharsee/SVAVMX/usr/src/sys/" . "sys/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/kdharsee/hwbug_triggers/kbl009/load_DR_syscall/"
+ "/home/kdharsee/hwbug_triggers/utils/cpuid/"
+ "/home/kdharsee/hwbug_triggers/kbl082/"
+ "/home/kdharsee/hwbug_triggers/kbl009/"
+ "/home/kdharsee/SVAVMX/usr/src/sys/kern/toy_hypervisor/"
+ "/home/kdharsee/SVAVMX/usr/src/sys/kern/"
+ "/home/kdharsee/SVAVMX/usr/src/sys/kern/svavmx_benchmarks/"
+ "/home/kdharsee/SVAVMX/usr/src/sys/sys/"
+ "/home/kdharsee/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "Makefile"
+ "load_DR.c"
+ "cpuid.c"
+ "trig_kbl082.c"
+ "system.inc"
+ "hello_world_vm.h"
+ "kern_sva_vmxbench.c"
+ "dummy.h"
+ "dummy.c"
+ "kern_sva_testvmx.c"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/kdharsee/" (23603 38012 632332 632000) ".emacs" ".zsh_history" ".zcompdump" "start-qemu_sh.sh" ".zshrc" ".zshrc~" ".emacs~" ".emacs_fbsd9" "tea/" "vm_display_init.sh" "hwbug_triggers/" ".zshrc.fbsd9" ".xpdfrc" "SVAVMX/" ".shrc" ".rhosts" ".mailrc" ".mail_aliases" ".login_conf" ".login" ".history" ".gitconfig" ".cshrc" ".steam/" "sandbox/" "Papers/" ".wget-hsts" "Virtual_Machines/" "SVA/" ".viminfo" ".vim/" ".bash_history" ".emacs.d/" ".mozilla/" ".lesshst" ".gnupg/" ".ssh/" ".esd_auth" ".ICEauthority" ".cache/" "Videos/" "Pictures/" "Music/" "Documents/" "Public/" "Templates/" "Downloads/" "Desktop/" "Readme" ".xinitrc" ".profile" ".face" ".dir_colors" ".Xclients" ".local/" ".config/" ".bashrc" ".bash_profile" ".bash_logout" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/sys/" (23549 19881 133189 783000) "sysproto.h" "syscall.mk" "syscall.h" "sysproto.h.bak" "syscall.mk.bak" "syscall.h.bak" "proc.h" "pmc.h" "pcpu.h" "watchdog.h" "wait.h" "vtoc.h" "vnode.h" "vmmeter.h" "uuid.h" "utsname.h" "user.h" "unpcb.h" "unistd.h" "un.h" "umtx.h" "uio.h" "ucred.h" "ucontext.h" "types.h" "turnstile.h" "ttyqueue.h" "ttyhook.h" "ttydisc.h" "ttydevsw.h" "ttydefaults.h" "ttycom.h" "tty.h" "tree.h" "timex.h" "timetc.h" "timespec.h" "times.h" "timers.h" "timepps.h" "timeet.h" "timeb.h" "time.h" "tiio.h" "thr.h" "termios.h" "taskqueue.h" "systm.h" "syslog.h" "syslimits.h" "sysent.h" "sysctl.h" "syscallsubr.h" "sx.h" "sun_disklabel.h" "stdint.h" "stddef.h" "statvfs.h" "stat.h" "stack.h" "soundcard.h" "sockstate.h" "sockopt.h" "sockio.h" "socketvar.h" "socket.h" "sockbuf.h" "snoop.h" "smp.h" "sleepqueue.h" "signalvar.h" "signal.h" "sigio.h" "shm.h" "sglist.h" "sf_buf.h" "serial.h" "sema.h" "sem.h" "selinfo.h" "select.h" "sdt.h" "sched.h" "sbuf.h" "rwlock.h" "runq.h" "rtprio.h" "rmlock.h" "rman.h" "resourcevar.h" "resource.h" "regression.h" "refcount.h" "reboot.h" "rctl.h" "random.h" "racct.h" "queue.h" "ptrace.h" "ptio.h" "protosw.h" "procfs.h" "procdesc.h" "priv.h" "priority.h" "power.h" "posix4.h" "poll.h" "pmclog.h" "pmckern.h" "pipe.h" "pioctl.h" "pciio.h" "param.h" "osd.h" "nlist_aout.h" "namei.h" "mutex.h" "mtio.h" "msgbuf.h" "msg.h" "mqueue.h" "mpt_ioctl.h" "mouse.h" "mount.h" "module_khelp.h" "module.h" "mman.h" "memrange.h" "mdioctl.h" "md5.h" "md4.h" "mchain.h" "mbuf.h" "mbpool.h" "malloc.h" "mac.h" "loginclass.h" "lockstat.h" "lockmgr.h" "lockf.h" "lock_profile.h" "lock.h" "linker_set.h" "linker.h" "link_elf.h" "link_aout.h" "limits.h" "libkern.h" "ktrace.h" "ktr.h" "kthread.h" "ksyms.h" "ksem.h" "kobj.h" "khelp.h" "kerneldump.h" "kernel.h" "kenv.h" "kdb.h" "kbio.h" "joystick.h" "jail.h" "ipmi.h" "ipc.h" "ioctl_compat.h" "ioctl.h" "ioccom.h" "interrupt.h" "inflate.h" "imgact_elf.h" "imgact_aout.h" "imgact.h" "iconv.h" "hhook.h" "hash.h" "gpt.h" "gpio.h" "gmon.h" "fnv_hash.h" "firmware.h" "filio.h" "filedesc.h" "file.h" "fdcio.h" "fcntl.h" "fbio.h" "fail.h" "extattr.h" "exec.h" "eventvar.h" "eventhandler.h" "event.h" "eui64.h" "errno.h" "endian.h" "elf_generic.h" "elf_common.h" "elf64.h" "elf32.h" "elf.h" "dvdio.h" "dtrace_bsd.h" "domain.h" "dkstat.h" "diskpc98.h" "diskmbr.h" "disklabel.h" "disk.h" "dirent.h" "dir.h" "digiio.h" "devicestat.h" "device_port.h" "dataacq.h" "ctype.h" "cpuset.h" "cpuctl.h" "cpu.h" "copyright.h" "consio.h" "cons.h" "conf.h" "condvar.h" "clock.h" "chio.h" "cfictl.h" "cdrio.h" "cdio.h" "cdefs.h" "capability.h" "callout.h" "bus_dma.h" "bus.h" "bufobj.h" "buf_ring.h" "buf.h" "blist.h" "bitstring.h" "bio.h" "ata.h" "assym.h" "apm.h" "alq.h" "aio.h" "agpio.h" "acl.h" "acct.h" "aac_ioctl.h" "_umtx.h" "_types.h" "_timeval.h" "_timespec.h" "_termios.h" "_task.h" "_sx.h" "_stdint.h" "_stack.h" "_sockaddr_storage.h" "_sigset.h" "_semaphore.h" "_rwlock.h" "_rmlock.h" "_pthreadtypes.h" "_null.h" "_mutex.h" "_lockmgr.h" "_lock.h" "_iovec.h" "_cpuset.h" "_callout.h" "_bus_dma.h" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/kern/svavmx_benchmarks/" (23603 19663 196014 291000) "dummy.h" "dummy.c" "bench.h" "bench.c" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/kern/" (23603 19663 196014 291000) "syscalls.master" "svavmx_benchmarks/" "kern_sva_vmxbench.c" "kern_sva_testvmx.c" "svavmx_bench.patch" "systrace_args.c" "syscalls.c" "init_sysent.c" "systrace_args.c.bak" "init_sysent.c.bak" "syscalls.c.bak" "xdong_syscall.c" "toy_hypervisor/" "kern_fork.c" "kern_exec.c" "vnode_if.src" "vfs_vnops.c" "vfs_syscalls.c" "vfs_subr.c" "vfs_mountroot.c" "vfs_mount.c" "vfs_lookup.c" "vfs_init.c" "vfs_hash.c" "vfs_extattr.c" "vfs_export.c" "vfs_default.c" "vfs_cluster.c" "vfs_cache.c" "vfs_bio.c" "vfs_aio.c" "vfs_acl.c" "uipc_usrreq.c" "uipc_syscalls.c" "uipc_socket.c" "uipc_sockbuf.c" "uipc_shm.c" "uipc_sem.c" "uipc_mqueue.c" "uipc_mbuf2.c" "uipc_mbuf.c" "uipc_domain.c" "uipc_debug.c" "uipc_cow.c" "uipc_accf.c" "tty_ttydisc.c" "tty_tty.c" "tty_pts.c" "tty_outq.c" "tty_inq.c" "tty_info.c" "tty_compat.c" "tty.c" "sysv_shm.c" "sysv_sem.c" "sysv_msg.c" "sysv_ipc.c" "sys_socket.c" "sys_process.c" "sys_procdesc.c" "sys_pipe.c" "sys_generic.c" "sys_capability.c" "subr_witness.c" "subr_unit.c" "subr_uio.c" "subr_turnstile.c" "subr_trap.c" "subr_taskqueue.c" "subr_syscall.c" "subr_stack.c" "subr_smp.c" "subr_sleepqueue.c" "subr_sglist.c" "subr_scanf.c" "subr_sbuf.c" "subr_rtc.c" "subr_rman.c" "subr_prof.c" "subr_prf.c" "subr_power.c" "subr_pcpu.c" "subr_param.c" "subr_msgbuf.c" "subr_module.c" "subr_mchain.c" "subr_mbpool.c" "subr_log.c" "subr_lock.c" "subr_kobj.c" "subr_kdb.c" "subr_hints.c" "subr_hash.c" "subr_firmware.c" "subr_fattime.c" "subr_eventhandler.c" "subr_disk.c" "subr_devstat.c" "subr_clock.c" "subr_bus.c" "subr_bufring.c" "subr_blist.c" "subr_autoconf.c" "subr_acl_posix1e.c" "subr_acl_nfs4.c" "stack_protector.c" "serdev_if.m" "sched_ule.c" "sched_4bsd.c" "posix4_mib.c" "p1003_1b.c" "md5c.c" "md4c.c" "makesyscalls.sh" "linker_if.m" "link_elf_obj.c" "link_elf.c" "ksched.c" "kern_xxx.c" "kern_uuid.c" "kern_umtx.c" "kern_timeout.c" "kern_time.c" "kern_thread.c" "kern_thr.c" "kern_tc.c" "kern_sysctl.c" "kern_syscalls.c" "kern_synch.c" "kern_sx.c" "kern_switch.c" "kern_sva.c" "kern_sig.c" "kern_shutdown.c" "kern_sema.c" "kern_sdt.c" "kern_rwlock.c" "kern_rmlock.c" "kern_resource.c" "kern_rctl.c" "kern_racct.c" "kern_prot.c" "kern_proc.c" "kern_priv.c" "kern_poll.c" "kern_pmc.c" "kern_physio.c" "kern_osd.c" "kern_ntptime.c" "kern_mutex.c" "kern_mtxpool.c" "kern_module.c" "kern_mib.c" "kern_mbuf.c" "kern_malloc.c" "kern_loginclass.c" "kern_lockstat.c" "kern_lockf.c" "kern_lock.c" "kern_linker.c" "kern_ktrace.c" "kern_ktr.c" "kern_kthread.c" "kern_khelp.c" "kern_jail.c" "kern_intr.c" "kern_idle.c" "kern_hhook.c" "kern_gzio.c" "kern_fail.c" "kern_exit.c" "kern_event.c" "kern_et.c" "kern_environment.c" "kern_dtrace.c" "kern_descrip.c" "kern_ctf.c" "kern_cpuset.c" "kern_cpu.c" "kern_context.c" "kern_cons.c" "kern_conf.c" "kern_condvar.c" "kern_clocksource.c" "kern_clock.c" "kern_alq.c" "kern_acct.c" "init_main.c" "inflate.c" "imgact_shell.c" "imgact_gzip.c" "imgact_elf64.c" "imgact_elf32.c" "imgact_elf.c" "imgact_aout.c" "genassym.sh" "device_if.m" "cpufreq_if.m" "clock_if.m" "capabilities.conf" "bus_if.m" "Makefile" "Make.tags.inc" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/kern/toy_hypervisor/" (23603 19663 196014 291000) "toy_hypervisor.h" "toy_hypervisor.c" "hello_world_vm.h" "hello_world_vm.c" "README" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/kbl009/load_DR_syscall/" (23604 40862 434367 799000) "Makefile" "load_DR.c" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/kbl009/" (23604 39019 221069 457000) "load_DR_syscall/" "trig_kbl009.c" "trig_kbl009" "system.inc" "trig_kbl009.o" "trig_kbl009.asm" "notes.txt" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/utils/cpuid/" (23603 14135 236119 229000) "Makefile" "cpuid.c" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/utils/" (23603 32101 325778 178000) "start_qemu.sh" "setup_SVA.sh" "system.inc" "cpuid/" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/kbl082/" (23475 27115 98446 768000) "trig_kbl082.c" "notes.txt" "mpxs_init/" "mpx_init_uspace.h" "mpx_init_uspace.c" "Makefile" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/" (23603 14193 856118 108000) "utils/" "kbl082/" "kbl038/" "kbl009/" "README.md" ".git/" "../" "./")
+
+ ("/home/kdharsee/hwbug_triggers/kbl038/" (23475 27115 98446 768000) "trig_kbl038.c" "notes.txt" "mpxs_init/" "mpx_init_uspace.h" "mpx_init_uspace.c" "Makefile" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/" (23549 3087 990175 233000) "usr/" "configure" "TAGS" "make.conf" "config.status" "config.log" "make.conf.in" "llvm/" "lib/" "install-sh" "freebsd9_patch" "autoconf/" "SVA/" "README.md" "LICENSE.TXT" "CREDITS.TXT" ".gitignore" ".git/" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/" (23549 3310 826837 670000) "userspace_tests/" "src/" "README.md" ".git/" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/" (23549 3096 423508 406000) "usr.sbin/" "usr.bin/" "tools/" "sys/" "share/" "secure/" "sbin/" "rescue/" "release/" "libexec/" "lib/" "kerberos5/" "include/" "gnu/" "games/" "etc/" "crypto/" "contrib/" "cddl/" "bin/" "UPDATING" "README" "ObsoleteFiles.inc" "Makefile.mips" "Makefile.inc1" "Makefile" "MAINTAINERS" "LOCKS" "COPYRIGHT" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/amd64/include/" (23549 3095 370175 93000) "xen/" "vmparam.h" "vm.h" "varargs.h" "ucontext.h" "tss.h" "trap.h" "timerreg.h" "sysarch.h" "stdarg.h" "stack.h" "specialreg.h" "smp.h" "signal.h" "sigframe.h" "sf_buf.h" "setjmp.h" "segments.h" "runq.h" "resource.h" "reloc.h" "reg.h" "ptrace.h" "psl.h" "profile.h" "proc.h" "ppireg.h" "pmc_mdep.h" "pmap.h" "pcpu.h" "pci_cfgreg.h" "pcb.h" "pc/" "param.h" "nexusvar.h" "mp_watchdog.h" "minidump.h" "metadata.h" "memdev.h" "md_var.h" "limits.h" "legacyvar.h" "kdb.h" "iodev.h" "intr_machdep.h" "in_cksum.h" "ieeefp.h" "gdb_machdep.h" "frame.h" "fpu.h" "floatingpoint.h" "float.h" "exec.h" "endian.h" "elf.h" "db_machdep.h" "cputypes.h" "cpufunc.h" "cpu.h" "clock.h" "bus_dma.h" "bus.h" "atomic.h" "asmacros.h" "asm.h" "apm_bios.h" "apicvar.h" "acpica_machdep.h" "_types.h" "_stdint.h" "_limits.h" "_inttypes.h" "_bus.h" "_align.h" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/amd64/" (23549 3095 370175 93000) "pci/" "linux32/" "include/" "ia32/" "conf/" "compile/" "amd64/" "acpica/" "Makefile" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/usr/src/sys/" (23549 3096 173508 412000) "xen/" "xdr/" "x86/" "vm/" "ufs/" "tools/" "teken/" "sys/" "sparc64/" "security/" "rpc/" "powerpc/" "pci/" "pc98/" "opencrypto/" "ofed/" "nlm/" "nfsserver/" "nfsclient/" "nfs/" "netsmb/" "netncp/" "netnatm/" "netipx/" "netipsec/" "netinet6/" "netinet/" "netgraph/" "netatalk/" "net80211/" "net/" "modules/" "mips/" "libkern/" "kgssapi/" "kern/" "isa/" "ia64/" "i386/" "gnu/" "geom/" "gdb/" "fs/" "dev/" "ddb/" "crypto/" "contrib/" "conf/" "compat/" "cddl/" "cam/" "bsm/" "boot/" "arm/" "amd64/" "Makefile" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/SVA/lib/" (23488 45640 608588 893000) ".#vmx.c" "vmx_ept.c" "vmx.c" "secmem.c" "mmu.c" "debug.c" "thread_stack.c" "state.c" "offsets.h" "invokeasm.S" "init.c" "handlers.S" "Makefile" "thread_stack.h" "stateasm.S" "profile.c" "keys.h" "keys.c" "invoke.c" "interrupt.c" "icat.h" "checks.c" "../" "./")
+
+ ("/home/kdharsee/SVAVMX/SVA/" (23459 36305 20527 34000) "lib/" "include/" "Makefile" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
