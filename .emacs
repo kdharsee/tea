@@ -1,3 +1,4 @@
+(setq package-enable-at-startup nil) (package-initialize)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ibuffer over buffer-list
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -7,12 +8,12 @@
 ;; Visual Bell adjustment
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ring-bell-function
-	  (lambda ()
-		(let ((orig-fg (face-foreground 'mode-line)))
-		  (set-face-foreground 'mode-line "#FF8040")
-		  (run-with-idle-timer 0 nil
-							   (lambda (fg) (set-face-foreground
-							   'mode-line fg)) orig-fg))))
+      (lambda ()
+	(let ((orig-fg (face-foreground 'mode-line)))
+	  (set-face-foreground 'mode-line "#FF8040")
+	  (run-with-idle-timer 0 nil
+			       (lambda (fg) (set-face-foreground
+					     'mode-line fg)) orig-fg))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable Ido mode errwhere
@@ -31,11 +32,11 @@
 (global-linum-mode 1)
 (defun buffer-too-big-p ()
   (or (> (buffer-size) (* 5000 80))
-	  (> (line-number-at-pos (point-max)) 5000)))
+      (> (line-number-at-pos (point-max)) 5000)))
 (add-hook 'prog-mode-hook
-		  (lambda ()
-			;; turn off `linum-mode' when there are more than 5000 lines
-			(if (buffer-too-big-p) (linum-mode -1))))
+	  (lambda ()
+	    ;; turn off `linum-mode' when there are more than 5000 lines
+	    (if (buffer-too-big-p) (linum-mode -1))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight Indents
@@ -67,9 +68,9 @@
 ;; Auto Save backup directory
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq backup-directory-alist
-	  `((".*" . ,temporary-file-directory)))
+      `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
-	  `((".*" ,temporary-file-directory t)))
+      `((".*" ,temporary-file-directory t)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -84,7 +85,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SET THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load-theme 'dracula t)
+(if (file-exists-p "~/.emacs.d/themes/")
+    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/%s")
+	   (load-theme 'dracula t))
+  nil)
 
 
 (global-visual-line-mode 1); Proper line wrapping
@@ -103,7 +107,7 @@
 (package-initialize)
 
 (add-to-list 'package-archives
-			 '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 
 ;; Disable blinking cursor
 (setq visible-cursor nil)
@@ -112,13 +116,13 @@
 ;; Proof General Package
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (require 'package "" 1)
-        (progn
-          (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                                                  (not (gnutls-available-p))))
-                         (proto (if no-ssl "http" "https")))
-                (add-to-list 'package-archives
-                                         (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-          (package-initialize))
+    (progn
+      (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                          (not (gnutls-available-p))))
+             (proto (if no-ssl "http" "https")))
+        (add-to-list 'package-archives
+                     (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+      (package-initialize))
   nil
   )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,7 +165,7 @@
 ;; Verilog-Mode Stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'verilog-mode-hook 
-		  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+	  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 (custom-set-variables
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
@@ -220,7 +224,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-	("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))))
+    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
