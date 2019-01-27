@@ -122,7 +122,9 @@
              (proto (if no-ssl "http" "https")))
         (add-to-list 'package-archives
                      (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-      (package-initialize))
+      (package-initialize)
+      (add-hook 'coq-mode-hook (lambda () (setq overlay-arrow-string "")))
+      )
   nil
   )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
