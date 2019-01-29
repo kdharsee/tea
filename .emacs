@@ -148,7 +148,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
-(c-set-offset 'case-label '+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fill Column
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -162,6 +161,12 @@
 (setq-default c-basic-offset 2
 	      tab-width 2
 	      indent-tabs-mode nil)
+(defun pretty-c ()
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-cont '0)
+  (c-set-offset 'case-label '+))
+(add-hook 'c-mode-hook 'pretty-c)
+  
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Verilog-Mode Stuff
@@ -169,6 +174,15 @@
 (add-hook 'verilog-mode-hook 
 	  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 (custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (dracula)))
+ '(custom-safe-themes
+   (quote
+    ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(package-selected-packages (quote (dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
@@ -219,14 +233,7 @@
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
