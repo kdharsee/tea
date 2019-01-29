@@ -6,6 +6,7 @@
 
 ;; Author: film42
 ;; Version: 1.5.1
+;; Package-Version: 20190107.2016
 ;; Package-Requires: ((emacs "24"))
 ;; URL: https://github.com/dracula/emacs
 
