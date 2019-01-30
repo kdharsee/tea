@@ -63,6 +63,8 @@ alias scholar='scholar -c 5'
 alias less='less -R'
 # Print history from the BEGINNING OF TIME
 alias history='history 1'
+# Copy ssh key to server's authorized keys
+alias ssh-key-copy="ssh_key_copy"
 
 # Alias for xpdf reverse video (dark) mode
 alias xpdf='xpdf -rv'
@@ -151,6 +153,10 @@ LS_COLORS=$LS_COLORS:'di=1;33:'; export LS_COLORS
 bindkey -e
 bindkey '^w' kill-region
 
+function ssh_key_copy()
+{
+    cat ~/.ssh/id_rsa.pub | ssh $1 'cat >> ~/.ssh/authorized_keys'
+}
 
 function autoretry()
 {
