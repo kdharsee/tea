@@ -37,8 +37,7 @@ then
 fi
 
 # Define aliases
-alias ctags='find . -type f -iname "*.[chS]" | xargs etags -a'
-alias ffind='find ./* -name'
+alias tags='find -E . -type f -regex ".*\.(c|h|S|cpp)" | xargs etags -a'
 alias clip='xclip -selection c'
 alias sudo='sudo '
 alias mv='mv -i'
