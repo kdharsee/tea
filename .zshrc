@@ -8,7 +8,7 @@ export CUPS_SERVER=print.cs.rochester.edu
 
 # List highlighting completion
 zstyle ':completion:*:*:git:*' menu select
-fpath=(/usr/loca/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit && compinit
 zmodload -i zsh/complist
 
@@ -30,8 +30,13 @@ setopt hist_ignore_space
 setopt AUTO_CONTINUE
 
 # Start emacs server if it's not started
-test -e /tmp/emacs*/server || test -e ~/.emacs.d/server
-if [ $? -ne 0 ]
+server=0
+for file in /tmp/emacs*
+do 
+    server=$server || test -e $file/server
+done
+server=$server || test -e "~/.emacs.d/server"
+if [ $server -ne 0 ]
 then
 	\emacs --daemon -nw
 fi
