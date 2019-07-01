@@ -30,13 +30,21 @@ setopt hist_ignore_space
 setopt AUTO_CONTINUE
 
 # Start emacs server if it's not started
-server=0
+server=1
 for file in /tmp/emacs*
 do 
-    server=$server || test -e $file/server
+    test -e $file/server
+    if [[ $? -eq 0 ]]
+    then
+        server=0
+    fi
 done
-server=$server || test -e "~/.emacs.d/server"
-if [ $server -ne 0 ]
+test -e "~/.emacs.d/server"
+if [[ $? -eq 0 ]]
+then
+    server=0
+fi
+if [[ $server -ne 0 ]]
 then
 	\emacs --daemon -nw
 fi
