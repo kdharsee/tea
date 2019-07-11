@@ -114,6 +114,40 @@ then
   export PROMPT='%F{cyan}[%n@%m]%f %F{blue}%~$%f '
 fi
 
+# Functions for prompt
+PS1o="$PS1"
+# Calculate number of lines for half terminal's height
+halfpage=$((LINES/2))
+# Construct parameter to go down/up $halfpage lines view termcap
+halfpage_down=""
+for i in {1..$halfpage}; do 
+    halfpage_down="$halfpage_down$terminfo[cud1]"
+done
+halfpage_up=""
+for  i in {1..$halfpage}; do 
+    halfpage_up="$halfpage_up$terminfo[cuu1]"
+done
+
+function prompt_middle() { 
+    # print $halfpage_down
+    PS1="%{${halfpage_down}${halfpage_up}%}$PS1o"
+}
+function prompt_restore() {
+    PS1="$PS1o"
+}
+
+function magic-enter() { 
+    if [[ -z $BUFFER ]]
+    then 
+        print ${halfpage_down}${halfpage_up}$terminfo[cuu1]
+        zle reset-prompt
+    else
+        zle accept-line
+    fi
+}
+zle -N magic-enter
+bindkey "^M" magic-enter    
+
 # Function to print a useful prompt
 prompt_command() {
     local exit_status="$?"
@@ -128,7 +162,7 @@ prompt_command() {
     local fR="\e[0;31m"         # Red foreground
 
     # Set PS1
-    if [[ "$PS1" ]]; then
+    if [ "$PS1" ]; then
         PS1="$fGbBb"
         PS1="$PS1\u"                    # Username
         PS1="$PS1$fYbBb"
