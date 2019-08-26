@@ -20,5 +20,6 @@ bind = any zoomIn
 
 continuousView yes
 vectorAntialias yes
+initialSidebarState no
 
 launchCommand continuous
