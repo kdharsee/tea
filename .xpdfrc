@@ -16,7 +16,7 @@ bind ctrl-s any find
 bind - any zoomOut
 bind + any zoomIn
 bind = any zoomIn
-
+bind q any quit
 
 continuousView yes
 vectorAntialias yes
