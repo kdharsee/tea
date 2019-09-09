@@ -19,7 +19,6 @@ bind = any zoomIn
 bind q any quit
 
 initialZoom width
-continuousView yes
 vectorAntialias yes
 initialSidebarState no
 
