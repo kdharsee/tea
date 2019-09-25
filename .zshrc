@@ -82,7 +82,8 @@ alias ssh-key-copy="ssh_key_copy"
 alias xpdf='xpdf -rv'
 
 # Set up display
-export DISPLAY=':0.0'
+#export DISPLAY=':0.0'
+export DISPLAY='localhost:0.0'
 # Set default applications
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
