@@ -29,6 +29,9 @@ setopt hist_ignore_space
 # zsh autosend SIGCONT after disown
 setopt AUTO_CONTINUE
 
+# zsh disable globbing from printing error on nomatch (e.g. /tmp/emacs* -> ERROR)
+setopt +o nomatch
+
 # Start emacs server if it's not started
 server=1
 for file in /tmp/emacs*
