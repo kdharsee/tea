@@ -29,6 +29,9 @@ setopt hist_ignore_space
 # zsh autosend SIGCONT after disown
 setopt AUTO_CONTINUE
 
+# zsh disable globbing from printing error on nomatch (e.g. /tmp/emacs* -> ERROR)
+setopt +o nomatch
+
 # Start emacs server if it's not started
 server=1
 for file in /tmp/emacs*
@@ -82,7 +85,8 @@ alias ssh-key-copy="ssh_key_copy"
 alias xpdf='xpdf -rv'
 
 # Set up display
-export DISPLAY=':0.0'
+#export DISPLAY=':0.0'
+export DISPLAY='localhost:0.0'
 # Set default applications
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
