@@ -136,8 +136,8 @@
 ;; Spell check when entering latex-mode
 (if (require 'tex "" 1)
     (progn 
-      ;;(add-hook 'latex-mode-hook 'flyspell-mode)
-      ;;(add-hook 'latex-mode-hook 'flyspell-buffer)
+      (add-hook 'Latex-mode-hook 'flyspell-mode)
+      (add-hook 'Latex-mode-hook 'flyspell-buffer)
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
       (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
