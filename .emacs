@@ -86,7 +86,7 @@
 ;; SET THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/themes/")
-    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/%s")
+    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 	   (load-theme 'dracula t))
   nil)
 
