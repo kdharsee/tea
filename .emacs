@@ -136,8 +136,8 @@
 ;; Spell check when entering latex-mode
 (if (require 'tex "" 1)
     (progn 
-      (add-hook 'Latex-mode-hook 'flyspell-mode)
-      (add-hook 'Latex-mode-hook 'flyspell-buffer)
+      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+      (add-hook 'LaTeX-mode-hook 'flyspell-buffer)
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
       (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
@@ -212,6 +212,7 @@
 ;; Set TAB to indent in bibtex-mode
 (defun bibtex-mode-tab ()
   (local-set-key (kbd "TAB") 'indent-for-tab-command)
+  (local-set-key (kbd "M-q") 'fill-individual-paragraphs)
   )
 (add-hook 'bibtex-mode-hook 'bibtex-mode-tab)
 
