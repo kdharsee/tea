@@ -127,6 +127,21 @@
       )
   nil
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Sail highlighting package  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (file-exists-p "~/.emacs.d/themes/")
+    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+	   (load-theme 'dracula t))
+  nil)
+(if (file-exists-p "~/.emacs.d/sail/")
+    (progn
+      (add-to-list 'load-path "~/.emacs.d/sail/")
+      (load "sail-mode"))
+  nil)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -136,12 +151,10 @@
 ;; Spell check when entering latex-mode
 (if (require 'tex "" 1)
     (progn 
-      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-      (add-hook 'LaTeX-mode-hook 'flyspell-buffer)
+      (add-hook 'LaTeX-mode-hook #'turn-on-flyspell)
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
       (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
       (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
-      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-mode 1)))
       (add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer))) )
   nil
   )
