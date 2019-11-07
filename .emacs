@@ -149,15 +149,11 @@
 ;; LATEX STUFF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell check when entering latex-mode
-(if (require 'tex "" 1)
-    (progn 
-      (add-hook 'LaTeX-mode-hook #'turn-on-flyspell)
-      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
-      (add-hook 'LaTeX-mode-hook (lambda () (column-number-mode 1)))
-      (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 80)))
-      (add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer))) )
-  nil
-  )
+(add-hook 'tex-mode-hook #'flyspell-mode)
+(add-hook 'tex-mode-hook (lambda () (set-fill-column 80)))
+(add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
+(add-hook 'tex-mode-hook (lambda () (set-fill-column 80)))
+(add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -166,7 +162,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default fill-column 80)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Make _ a symbol constituent in the standard syntax table (inherited by most)
+(modify-syntax-entry ?_ "_");; standard-syntax-table)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C-Mode prettyness
@@ -240,6 +237,8 @@
 (global-set-key (kbd "M-RET") 'open-line)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-M-s") 'rgrep)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
 
