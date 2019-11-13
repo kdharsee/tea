@@ -63,7 +63,7 @@ alias la='ls -lah'
 alias emacsclient='emacsclient -t'
 alias emacs='emacsclient -t'
 #alias grep='grep -H --color=auto'
-alias grep='grep --color=auto'
+alias grep='grep --color=always'
 alias pushd="pushd ."
 alias peakd='echo $(dirs -l -p | sed -n "2{p;q}")'
 alias ssh='ssh -XC'
