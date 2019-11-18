@@ -155,7 +155,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell check when entering latex-mode
 (add-hook 'tex-mode-hook #'flyspell-mode)
-(add-hook 'tex-mode-hook (lambda () (set-fill-column 90)))
+(add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -164,7 +164,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fill Column
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq-default fill-column 90)
+(setq-default fill-column 85)
 
 ;; Make _ a symbol constituent in the standard syntax table (inherited by most)
 (modify-syntax-entry ?_ "_");; standard-syntax-table)
