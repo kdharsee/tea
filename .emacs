@@ -99,7 +99,7 @@
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
 (show-paren-mode 1); Matches parentheses and such in every mode
-(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
+;;(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
 (setq inhibit-splash-screen t); Disable splash screen
 (setq visible-bell t); Flashes on error
 
