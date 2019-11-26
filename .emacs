@@ -154,8 +154,8 @@
 ;; LATEX STUFF
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell check when entering latex-mode
-(add-hook 'tex-mode-hook #'flyspell-mode)
-(add-hook 'tex-mode-hook (lambda () (set-fill-column 100)))
+;;(add-hook 'tex-mode-hook #'flyspell-mode)
+(add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -164,7 +164,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fill Column
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq-default fill-column 100)
+(setq-default fill-column 85)
 
 ;; Make _ a symbol constituent in the standard syntax table (inherited by most)
 (modify-syntax-entry ?_ "_");; standard-syntax-table)
@@ -196,7 +196,9 @@
  '(custom-safe-themes
    (quote
     ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(package-selected-packages (quote (flycheck boogie-friends dracula-theme)))
+ '(package-selected-packages
+   (quote
+    (proof-general flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
@@ -234,10 +236,6 @@
 ;; MODIFIED KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
-(global-set-key (kbd "C-?") 'help-command)
-(global-set-key (kbd "M-?") 'mark-paragraph)
-(global-set-key (kbd "C-h") 'delete-backward-char)
-(global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "M-RET") 'open-line)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
