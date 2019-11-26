@@ -1,5 +1,11 @@
 (setq package-enable-at-startup nil) (package-initialize)
 
+;; Disable async-shell-command from spawning a buffer
+(add-to-list 'display-buffer-alist
+             (cons "\\*Async Shell Command\\*.*"
+                   (cons #'display-buffer-no-window nil)))
+
+
 ;; Entry keyboard macro
 (fset 'entry
    "\\entry{\C-u\C-[!date\C-m\C-e}\C-n\C-a")
