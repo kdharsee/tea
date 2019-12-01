@@ -26,6 +26,9 @@ export SAVEHIST=$HISTSIZE
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 
+# Globbing enhancments
+setopt extended_glob
+
 # zsh autosend SIGCONT after disown
 setopt AUTO_CONTINUE
 
@@ -62,7 +65,7 @@ alias ll='ls -lh'
 alias la='ls -lah'
 alias emacsclient='emacsclient -t'
 alias emacs='emacsclient -t'
-alias note='emacs ~/notes/notes.tex'
+alias note='emacsclient -t ~/notes/notes.tex'
 #alias grep='grep -H --color=auto'
 alias grep='grep --color=always'
 alias pushd="pushd ."
@@ -87,7 +90,6 @@ alias xpdf='xpdf -rv'
 
 # Set up display
 #export DISPLAY=':0.0'
-#export DISPLAY='localhost:0.0'
 # Set default applications
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
