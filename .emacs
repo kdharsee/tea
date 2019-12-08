@@ -8,7 +8,7 @@
 
 ;; Entry keyboard macro
 (fset 'entry
-   "\\entry{\C-u\C-[!date\C-m\C-e}\C-n\C-a")
+   "\C-m\C-p\\entry{\C-u\C-[!date\C-m\C-e}\C-m\C-m")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ibuffer over buffer-list
