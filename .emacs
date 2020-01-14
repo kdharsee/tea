@@ -17,12 +17,12 @@
 command, and a paremeterized color"
   (interactive "p\nsEntry Color: ")
   (insert (format
-           "\\entry[%s]{%s}{\n\n}"
+           "\\entry[%s]{%s}{\n\n\n\n}\n"
            color
            (shell-command-to-string
-            "date +\"%a %d %b %Y %r %Z\" | tr -d '\n' ")
+            "date --iso-8601='seconds' | tr -d '\n' ")
            ))
-  (backward-char 2))
+  (backward-char 4))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ibuffer over buffer-list
@@ -178,6 +178,33 @@ command, and a paremeterized color"
 (add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
+;; AUC TeX
+;; Needed for latex many packages
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+;; Use xetex (instead of pdflatex) 
+(setq-default TeX-engine 'xetex)
+;; Ask for master file when using \input
+(setq-default TeX-master nil)
+;; Set up reftex
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
+;; View Compiled File with Okular
+(custom-set-variables
+ '(LaTeX-command "latex -synctex=1")
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi has-no-display-manager)
+      "dvi2tty")
+     ((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "Okular")
+     (output-html "xdg-open"))))
+ '(cdlatex-paired-parens "$([{")
+ '(package-selected-packages (quote (cdlatex auctex)))
+ )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -187,7 +214,7 @@ command, and a paremeterized color"
 (setq-default fill-column 85)
 
 ;; Make _ a symbol constituent in the standard syntax table (inherited by most)
-(modify-syntax-entry ?_ "_");; standard-syntax-table)
+;; (modify-syntax-entry ?_ "_");; standard-syntax-table)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; C-Mode prettyness
@@ -216,9 +243,10 @@ command, and a paremeterized color"
  '(custom-safe-themes
    (quote
     ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (proof-general flycheck boogie-friends dracula-theme)))
+    (auctex proof-general flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
