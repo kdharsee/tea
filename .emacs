@@ -1,5 +1,8 @@
 (setq package-enable-at-startup nil) (package-initialize)
 
+;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
+(global-prettify-symbols-mode +1)
+
 ;; Disable async-shell-command from spawning a buffer
 (add-to-list 'display-buffer-alist
              (cons "\\*Async Shell Command\\*.*"
@@ -179,6 +182,8 @@ command, and a paremeterized color"
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 ;; AUC TeX
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
