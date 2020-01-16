@@ -20,7 +20,7 @@
 command, and a paremeterized color"
   (interactive "p\nsEntry Color: ")
   (insert (format
-           "\\begin{entry}{%s}{%s}{\n\n\n\n\\end{entry}\n"
+           "\\begin{entry}{%s}{%s}\n\n\n\n\\end{entry}\n"
            color
            (shell-command-to-string
             "date --iso-8601='seconds' | tr -d '\n' ")
