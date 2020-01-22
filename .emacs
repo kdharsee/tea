@@ -241,6 +241,7 @@ command, and a paremeterized color"
 ;; enable fold-mode by default in tex-files
 (add-hook 'LaTeX-mode-hook (lambda ()
                              (TeX-fold-mode 1)))
+(define-key LaTeX-mode-map (kbd "C-j") 'delete-other-windows)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
