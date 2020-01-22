@@ -1,4 +1,25 @@
-(setq package-enable-at-startup nil) (package-initialize)
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (when no-ssl
+    (warn "\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+1. Install an Emacs version that does support SSL and be safe.
+2. Remove this warning from your init file so you won't see it again."))
+  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
+  ;;(add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+(package-initialize)
 
 ;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
 (global-prettify-symbols-mode +1)
@@ -129,34 +150,53 @@ command, and a paremeterized color"
 (setq visible-bell t); Flashes on error
 
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(require 'package)
-(package-initialize)
-
-(add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-
 ;; Disable blinking cursor
 (setq visible-cursor nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Proof General Package
+;; Proof General Package / Coq things
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (require 'package "" 1)
-    (progn
-      (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                          (not (gnutls-available-p))))
-             (proto (if no-ssl "http" "https")))
-        (add-to-list 'package-archives
-                     (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-      (package-initialize)
-      (add-hook 'coq-mode-hook (lambda () (setq overlay-arrow-string "")))
-      )
-  nil
-  )
+;; I appreciate the effort of writing a splash-screen, but the angry
+;; general on the gif scares me.
+(setq proof-splash-seen t)
+
+;;; Hybrid mode is by far the best.
+(setq proof-three-window-mode-policy 'hybrid)
+
+;;; I don't know who wants to evaluate comments
+;;; one-by-one, but I don't.
+(setq proof-script-fly-past-comments t)
+
+(with-eval-after-load 'coq
+  ;; The most common command by far. Having a 3(!)
+  ;; keys long sequence for this command is just a
+  ;; crime.
+  (define-key coq-mode-map "\M-n"
+    #'proof-assert-next-command-interactive)
+
+  ;; Proof navigation didn't work for me. So please
+  ;; stand aside for my paragraph navigation.
+  ;; https://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
+  (define-key coq-mode-map "\M-e" nil)
+  (define-key coq-mode-map "\M-a" nil)
+
+  ;; Small convenience for commonly written commands.
+  (define-key coq-mode-map "\C-c\C-m" "\nend\t")
+  (define-key coq-mode-map "\C-c\C-e"
+    #'endless/qed)
+  (defun endless/qed ()
+    (interactive)
+    (unless (memq (char-before) '(?\s ?\n ?\r))
+      (insert " "))
+    (insert "Qed.")
+    (proof-assert-next-command-interactive)))
+
+(defun open-after-coq-command ()
+  (when (looking-at-p " *(\\*")
+    (open-line 1)))
+
+(when (fboundp 'company-coq-initialize)
+  (add-hook 'coq-mode-hook #'company-coq-initialize))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Sail highlighting package  
@@ -194,22 +234,10 @@ command, and a paremeterized color"
 ;; Set up reftex
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
-;; View Compiled File with Okular
-(custom-set-variables
- '(LaTeX-command "latex -synctex=1")
- '(TeX-view-program-selection
-   (quote
-    (((output-dvi has-no-display-manager)
-      "dvi2tty")
-     ((output-dvi style-pstricks)
-      "dvips and gv")
-     (output-dvi "xdvi")
-     (output-pdf "Okular")
-     (output-html "xdg-open"))))
- '(cdlatex-paired-parens "$([{")
- '(package-selected-packages (quote (cdlatex auctex)))
- )
-
+;; Set default tex compiler
+(setq-default TeX-engine 'xetex)
+;; Produce PDF by default 
+(setq-default TeX-PDF-mode t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -239,35 +267,7 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'verilog-mode-hook 
 	  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (dracula)))
- '(custom-safe-themes
-   (quote
-    ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
- '(line-number-mode nil)
- '(package-selected-packages
-   (quote
-    (auctex proof-general flycheck boogie-friends dracula-theme)))
- '(verilog-align-ifelse t)
- '(verilog-auto-delete-trailing-whitespace t)
- '(verilog-auto-inst-param-value t)
- '(verilog-auto-inst-vector nil)
- '(verilog-auto-newline nil)
- '(verilog-auto-save-policy nil)
- '(verilog-auto-template-warn-unused t)
- '(verilog-case-indent 3)
- '(verilog-cexp-indent 3)
- '(verilog-highlight-grouping-keywords t)
- '(verilog-highlight-modules t)
- '(verilog-indent-level 3)
- '(verilog-indent-level-behavioral 3)
- '(verilog-indent-level-declaration 3)
- '(verilog-indent-level-module 0)
- '(verilog-tab-to-comment t))
+
 
 
 ;; Line-number mode format, linum 
@@ -289,10 +289,11 @@ command, and a paremeterized color"
 ;; MODIFIED KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
-(global-set-key (kbd "M-RET") 'open-line)
+;(global-set-key (kbd "M-RET") 'open-line)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'rgrep)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
@@ -310,3 +311,44 @@ command, and a paremeterized color"
 (put 'downcase-region 'disabled nil)
 
 (put 'upcase-region 'disabled nil)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(LaTeX-command "latex -synctex=1")
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi has-no-display-manager)
+      "dvi2tty")
+     ((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "Okular")
+     (output-html "xdg-open"))))
+ '(cdlatex-paired-parens "$([{")
+ '(custom-enabled-themes (quote (dracula)))
+ '(custom-safe-themes
+   (quote
+    ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+ '(line-number-mode nil)
+ '(package-selected-packages
+   (quote
+    (proof-general company-coq coq-commenter auctex flycheck boogie-friends dracula-theme)))
+ '(verilog-align-ifelse t)
+ '(verilog-auto-delete-trailing-whitespace t)
+ '(verilog-auto-inst-param-value t)
+ '(verilog-auto-inst-vector nil)
+ '(verilog-auto-newline nil)
+ '(verilog-auto-save-policy nil)
+ '(verilog-auto-template-warn-unused t)
+ '(verilog-case-indent 3)
+ '(verilog-cexp-indent 3)
+ '(verilog-highlight-grouping-keywords t)
+ '(verilog-highlight-modules t)
+ '(verilog-indent-level 3)
+ '(verilog-indent-level-behavioral 3)
+ '(verilog-indent-level-declaration 3)
+ '(verilog-indent-level-module 0)
+ '(verilog-tab-to-comment t))
+
