@@ -238,6 +238,9 @@ command, and a paremeterized color"
 (setq-default TeX-engine 'xetex)
 ;; Produce PDF by default 
 (setq-default TeX-PDF-mode t)
+;; enable fold-mode by default in tex-files
+(add-hook 'LaTeX-mode-hook (lambda ()
+                             (TeX-fold-mode 1)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
