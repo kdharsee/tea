@@ -244,16 +244,17 @@ command, and a paremeterized color"
 (add-hook 'TeX-mode-hook (lambda ()
                            (progn
                              (TeX-fold-mode 1)
-                             (add-to-list 'TeX-fold-macro-spec-list '("[cr]" ("cref"))))))
+                             (add-to-list 'TeX-fold-macro-spec-list '("[cr]" ("cref" "Cref"))))))
 (defun LaTeX-mode-kbd ()
   (local-set-key (kbd "M-o") 'delete-other-windows)
+  (local-set-key (kbd "C-M-o") 'delete-window)
   (local-set-key (kbd "C-j") 'jump-to-register)
   (local-set-key (kbd "M-j") 'point-to-register)
   )
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
-(defun reftex-format-cref (label def-fmt reftype)
-  (format "\\cref{%s}" label))
-(setq reftex-format-ref-function 'reftex-format-cref)
+;; (defun reftex-format-cref (label def-fmt reftype)
+;;   (format "\\cref{%s}" label))
+;; (setq reftex-format-ref-function 'reftex-format-cref)
 ;; Enable folding of cref
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -316,6 +317,7 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
 (global-set-key (kbd "M-o") 'delete-other-windows)
+(global-set-key (kbd "C-M-o") 'delete-window)
 (global-set-key (kbd "M-j") 'point-to-register)
 (global-set-key (kbd "C-j") 'jump-to-register)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
