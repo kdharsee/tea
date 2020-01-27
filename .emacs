@@ -41,10 +41,12 @@ There are two things you can do about this warning:
 command, and a paremeterized color"
   (interactive "p\nsEntry Color: ")
   (insert (format
-           "\\begin{entry}{%s}{%s}\n\n\n\n\\end{entry}\n"
+           "\\begin{entry}{%s}{%s}\\label{entry:%s}\n\n\n\n\\end{entry}\n"
            color
            (shell-command-to-string
             "date --iso-8601='seconds' | tr -d '\n' ")
+           (shell-command-to-string
+            "date +%Y%m%d%H%M%S | tr -d '\n' ")
            ))
   (backward-char 14))
 
@@ -58,11 +60,11 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq ring-bell-function
       (lambda ()
-	(let ((orig-fg (face-foreground 'mode-line)))
-	  (set-face-foreground 'mode-line "#FF8040")
-	  (run-with-idle-timer 0 nil
-			       (lambda (fg) (set-face-foreground
-					     'mode-line fg)) orig-fg))))
+        (let ((orig-fg (face-foreground 'mode-line)))
+          (set-face-foreground 'mode-line "#FF8040")
+          (run-with-idle-timer 0 nil
+                               (lambda (fg) (set-face-foreground
+                                        'mode-line fg)) orig-fg))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable Ido mode errwhere
@@ -94,8 +96,8 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/highlight-indents/")
     (progn (add-to-list 'load-path "~/.emacs.d/highlight-indents/")
-	   (require 'highlight-indentation)
-	   (add-hook 'prog-mode-hook 'highlight-indentation-mode) )
+           (require 'highlight-indentation)
+           (add-hook 'prog-mode-hook 'highlight-indentation-mode) )
   nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -103,15 +105,15 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
     (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
-	   (require 'langtool)
-	   (global-set-key "\C-x4w" 'langtool-check-buffer)
-	   (global-set-key "\C-x4W" 'langtool-check-done)
-	   (global-set-key "\C-x4n" 'langtool-goto-next-error)
-	   (global-set-key "\C-x4p" 'langtool-goto-previous-error)
-	   (global-set-key "\C-x44" 'langtool-show-message-at-point)
+           (require 'langtool)
+           (global-set-key "\C-x4w" 'langtool-check-buffer)
+           (global-set-key "\C-x4W" 'langtool-check-done)
+           (global-set-key "\C-x4n" 'langtool-goto-next-error)
+           (global-set-key "\C-x4p" 'langtool-goto-previous-error)
+           (global-set-key "\C-x44" 'langtool-show-message-at-point)
 
-	   (setq langtool-java-bin "/usr/bin/java")
-	   )
+           (setq langtool-java-bin "/usr/bin/java")
+           )
   nil)
 
 
@@ -138,7 +140,7 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/themes/")
     (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-	   (load-theme 'dracula t))
+           (load-theme 'dracula t))
   nil)
 
 
@@ -203,7 +205,7 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (if (file-exists-p "~/.emacs.d/themes/")
     (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-	   (load-theme 'dracula t))
+           (load-theme 'dracula t))
   nil)
 (if (file-exists-p "~/.emacs.d/sail/")
     (progn
@@ -241,7 +243,15 @@ command, and a paremeterized color"
 ;; enable fold-mode by default in tex-files
 (add-hook 'LaTeX-mode-hook (lambda ()
                              (TeX-fold-mode 1)))
-(define-key LaTeX-mode-map (kbd "C-j") 'delete-other-windows)
+(defun LaTeX-mode-kbd ()
+  (local-set-key (kbd "M-o") 'delete-other-windows)
+  (local-set-key (kbd "C-j") 'jump-to-register)
+  (local-set-key (kbd "M-j") 'point-to-register)
+  )
+(add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
+(defun reftex-format-cref (label def-fmt reftype)
+  (format "\\cref{%s}" label))
+(setq reftex-format-ref-function 'reftex-format-cref)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -257,20 +267,20 @@ command, and a paremeterized color"
 ;; C-Mode prettyness
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq-default c-basic-offset 2
-	      tab-width 2
-	      indent-tabs-mode nil)
+              tab-width 2
+              indent-tabs-mode nil)
 (defun pretty-c ()
   (c-set-offset 'arglist-intro '+)
   (c-set-offset 'arglist-cont '0)
   (c-set-offset 'case-label '+))
 (add-hook 'c-mode-hook 'pretty-c)
-  
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Verilog-Mode Stuff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-hook 'verilog-mode-hook 
-	  (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
+          (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
 
 
 
@@ -293,7 +303,7 @@ command, and a paremeterized color"
 ;; MODIFIED KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
-;(global-set-key (kbd "M-RET") 'open-line)
+                                        ;(global-set-key (kbd "M-RET") 'open-line)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -301,7 +311,9 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-M-s") 'rgrep)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
-(global-set-key (kbd "C-j") 'delete-other-windows)
+(global-set-key (kbd "M-o") 'delete-other-windows)
+(global-set-key (kbd "M-j") 'point-to-register)
+(global-set-key (kbd "C-j") 'jump-to-register)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -339,7 +351,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (proof-general company-coq coq-commenter auctex flycheck boogie-friends dracula-theme)))
+    (langtool proof-general company-coq coq-commenter auctex flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
