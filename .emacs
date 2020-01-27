@@ -241,8 +241,10 @@ command, and a paremeterized color"
 ;; Produce PDF by default 
 (setq-default TeX-PDF-mode t)
 ;; enable fold-mode by default in tex-files
-(add-hook 'LaTeX-mode-hook (lambda ()
-                             (TeX-fold-mode 1)))
+(add-hook 'TeX-mode-hook (lambda ()
+                           (progn
+                             (TeX-fold-mode 1)
+                             (add-to-list 'TeX-fold-macro-spec-list '("[cr]" ("cref"))))))
 (defun LaTeX-mode-kbd ()
   (local-set-key (kbd "M-o") 'delete-other-windows)
   (local-set-key (kbd "C-j") 'jump-to-register)
@@ -252,6 +254,8 @@ command, and a paremeterized color"
 (defun reftex-format-cref (label def-fmt reftype)
   (format "\\cref{%s}" label))
 (setq reftex-format-ref-function 'reftex-format-cref)
+;; Enable folding of cref
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
