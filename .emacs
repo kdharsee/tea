@@ -174,7 +174,11 @@ command, and a paremeterized color"
   ;; keys long sequence for this command is just a
   ;; crime.
   (define-key coq-mode-map "\C-c\M-n"
-    'proof-assert-until-point-interactive))
+    'proof-assert-until-point-interactive)
+  (defun insert_arrow () (interactive) (insert "->"))
+  (define-key coq-mode-map (kbd "M--") #'insert_arrow)
+  )
+
 
 ;;   ;; Proof Navigation Didn't work for me. So please
 ;;   ;; stand aside for my paragraph navigation.
