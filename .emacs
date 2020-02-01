@@ -173,32 +173,32 @@ command, and a paremeterized color"
   ;; The most common command by far. Having a 3(!)
   ;; keys long sequence for this command is just a
   ;; crime.
-  (define-key coq-mode-map "\M-n"
-    #'proof-assert-next-command-interactive)
+  (define-key coq-mode-map "\C-c\M-n"
+    'proof-assert-until-point-interactive))
 
-  ;; Proof navigation didn't work for me. So please
-  ;; stand aside for my paragraph navigation.
-  ;; https://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
-  (define-key coq-mode-map "\M-e" nil)
-  (define-key coq-mode-map "\M-a" nil)
+;;   ;; Proof Navigation Didn't work for me. So please
+;;   ;; stand aside for my paragraph navigation.
+;;   ;; https://endlessparentheses.com/meta-binds-part-2-a-peeve-with-paragraphs.html
+;;   (define-key coq-mode-map "\M-e" nil)
+;;   (define-key coq-mode-map "\M-a" nil)
 
-  ;; Small convenience for commonly written commands.
-  (define-key coq-mode-map "\C-c\C-m" "\nend\t")
-  (define-key coq-mode-map "\C-c\C-e"
-    #'endless/qed)
-  (defun endless/qed ()
-    (interactive)
-    (unless (memq (char-before) '(?\s ?\n ?\r))
-      (insert " "))
-    (insert "Qed.")
-    (proof-assert-next-command-interactive)))
+;;   ;; Small convenience for commonly written commands.
+;;   (define-key coq-mode-map "\C-c\C-m" "\nend\t")
+;;   (define-key coq-mode-map "\C-c\C-e"
+;;     #'endless/qed)
+;;   (defun endless/qed ()
+;;     (interactive)
+;;     (unless (memq (char-before) '(?\s ?\n ?\r))
+;;       (insert " "))
+;;     (insert "Qed.")
+;;     (proof-assert-next-command-interactive)))
 
-(defun open-after-coq-command ()
-  (when (looking-at-p " *(\\*")
-    (open-line 1)))
+;; (defun open-after-coq-command ()
+;;   (when (looking-at-p " *(\\*")
+;;     (open-line 1)))
 
-(when (fboundp 'company-coq-initialize)
-  (add-hook 'coq-mode-hook #'company-coq-initialize))
+;; (when (fboundp 'company-coq-initialize)
+;;   (add-hook 'coq-mode-hook #'company-coq-initialize))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Sail highlighting package  
@@ -357,7 +357,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (langtool auctex flycheck boogie-friends dracula-theme)))
+    (proof-general langtool auctex flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
