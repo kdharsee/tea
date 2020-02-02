@@ -142,7 +142,8 @@ command, and a paremeterized color"
     (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
            (load-theme 'dracula t))
   nil)
-
+;; Set background color
+(add-to-list 'default-frame-alist '(background-color . "color-236"))
 
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
