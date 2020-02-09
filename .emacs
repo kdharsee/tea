@@ -159,6 +159,8 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Proof General Package / Coq things
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load company-coq when opening Coq files
+(add-hook 'coq-mode-hook #'company-coq-mode)
 ;; I appreciate the effort of writing a splash-screen, but the angry
 ;; general on the gif scares me.
 (setq proof-splash-seen t)
@@ -362,7 +364,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (proof-general langtool auctex flycheck boogie-friends dracula-theme)))
+    (company-coq pretty-symbols auto-complete proof-general langtool auctex flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
