@@ -143,7 +143,13 @@ command, and a paremeterized color"
            (load-theme 'dracula t))
   nil)
 ;; Set background color
-(add-to-list 'default-frame-alist '(background-color . "color-236"))
+;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
+;; Don't display a background
+(defun on-frame-open (frame)
+  (if (not (display-graphic-p frame))
+    (set-face-background 'default "unspecified-bg" frame)))
+(on-frame-open (selected-frame))
+(add-hook 'after-make-frame-functions 'on-frame-open)
 
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
