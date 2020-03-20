@@ -49,6 +49,15 @@ command, and a paremeterized color"
             "date +%Y%m%d%H%M%S | tr -d '\n' ")
            ))
   (backward-char 14))
+;; Function to copy to clipboard
+(defun clip ()
+  (interactive)
+  (if (use-region-p)
+      (shell-command
+       (format
+        "echo '%s' | xclip -selection c"
+        (buffer-substring (mark) (point))))
+    ()))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ibuffer over buffer-list
@@ -103,18 +112,22 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load Path
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
-    (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
-           (require 'langtool)
-           (global-set-key "\C-x4w" 'langtool-check-buffer)
-           (global-set-key "\C-x4W" 'langtool-check-done)
-           (global-set-key "\C-x4n" 'langtool-goto-next-error)
-           (global-set-key "\C-x4p" 'langtool-goto-previous-error)
-           (global-set-key "\C-x44" 'langtool-show-message-at-point)
+;; (if (file-exists-p "~/.emacs.d/LanguageTool-3.5/")
+;;     (progn (add-to-list 'load-path "~/.emacs.d/LanguageTool-3.5/")
+;;            (require 'langtool)
+;;            (global-set-key "\C-x4w" 'langtool-check-buffer)
+;;            (global-set-key "\C-x4W" 'langtool-check-done)
+;;            (global-set-key "\C-x4n" 'langtool-goto-next-error)
+;;            (global-set-key "\C-x4p" 'langtool-goto-previous-error)
+;;            (global-set-key "\C-x44" 'langtool-show-message-at-point)
 
-           (setq langtool-java-bin "/usr/bin/java")
-           )
-  nil)
+;;            (setq langtool-java-bin "/usr/bin/java")
+;;            )
+;;   nil)
+;; langtool setup
+;; (setq langtool-java-classpath
+;;       "/usr/share/languagetool:/usr/share/java/languagetool/*")
+;; (require 'langtool)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -145,11 +158,11 @@ command, and a paremeterized color"
 ;; Set background color
 ;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
 ;; Don't display a background
-(defun on-frame-open (frame)
-  (if (not (display-graphic-p frame))
-    (set-face-background 'default "unspecified-bg" frame)))
-(on-frame-open (selected-frame))
-(add-hook 'after-make-frame-functions 'on-frame-open)
+;; (defun on-frame-open (frame)
+;;   (if (not (display-graphic-p frame))
+;;     (set-face-background 'default "unspecified-bg" frame)))
+;; (on-frame-open (selected-frame))
+;; (add-hook 'after-make-frame-functions 'on-frame-open)
 
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
@@ -257,6 +270,7 @@ command, and a paremeterized color"
 (add-hook 'TeX-mode-hook (lambda ()
                            (progn
                              (TeX-fold-mode 1)
+                             ;; Enable folding of cref
                              (add-to-list 'TeX-fold-macro-spec-list '("[cr]" ("cref" "Cref"))))))
 (defun LaTeX-mode-kbd ()
   (local-set-key (kbd "M-o") 'delete-other-windows)
@@ -265,10 +279,9 @@ command, and a paremeterized color"
   (local-set-key (kbd "M-j") 'point-to-register)
   )
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
-;; (defun reftex-format-cref (label def-fmt reftype)
-;;   (format "\\cref{%s}" label))
-;; (setq reftex-format-ref-function 'reftex-format-cref)
-;; Enable folding of cref
+(defun reftex-format-cref (label def-fmt reftype)
+  (format "\\cref{%s}" label))
+(setq reftex-format-ref-function 'reftex-format-cref)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -329,6 +342,8 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-M-s") 'rgrep)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
+(global-set-key (kbd "C-x [") 'shrink-window-horizontally)
+(global-set-key (kbd "C-x ]") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-o") 'delete-other-windows)
 (global-set-key (kbd "C-M-o") 'delete-window)
 (global-set-key (kbd "M-j") 'point-to-register)
@@ -370,7 +385,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (company-coq pretty-symbols auto-complete proof-general langtool auctex flycheck boogie-friends dracula-theme)))
+    (multiple-cursors company-coq pretty-symbols auto-complete proof-general auctex flycheck boogie-friends dracula-theme)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
