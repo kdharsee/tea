@@ -14,8 +14,8 @@ There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t))
   ;; (when (< emacs-major-version 24)
   ;;   ;; For important compatibility libraries like cl-lib
   ;;   (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
@@ -151,10 +151,9 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SET THEME
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (file-exists-p "~/.emacs.d/themes/")
-    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-           (load-theme 'dracula t))
-  nil)
+;; (advice-add #'x-apply-session-resources :override #'ignore)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'dracula t)
 ;; Set background color
 ;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
 ;; Don't display a background
@@ -229,10 +228,6 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Sail highlighting package  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(if (file-exists-p "~/.emacs.d/themes/")
-    (progn (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-           (load-theme 'dracula t))
-  nil)
 (if (file-exists-p "~/.emacs.d/sail/")
     (progn
       (add-to-list 'load-path "~/.emacs.d/sail/")
@@ -378,14 +373,13 @@ command, and a paremeterized color"
      (output-pdf "Okular")
      (output-html "xdg-open"))))
  '(cdlatex-paired-parens "$([{")
- '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
-    ("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" default)))
+    ("55c2c0d811cdecd311ebe27f82b24a5410d38c1ff6117c91e5ba88031829ee06" default)))
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (multiple-cursors company-coq pretty-symbols auto-complete proof-general auctex flycheck boogie-friends dracula-theme)))
+    (multiple-cursors company-coq pretty-symbols auto-complete proof-general auctex flycheck boogie-friends)))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
