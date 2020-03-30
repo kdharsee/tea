@@ -14,8 +14,8 @@ There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t))
+   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
+  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t))
   ;; (when (< emacs-major-version 24)
   ;;   ;; For important compatibility libraries like cl-lib
   ;;   (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
@@ -177,6 +177,8 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Proof General Package / Coq things
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Open .v files with Proof General's Coq mode
+(load "~/.emacs.d/lisp/PG/generic/proof-site")
 ;; Load company-coq when opening Coq files
 (add-hook 'coq-mode-hook #'company-coq-mode)
 ;; I appreciate the effort of writing a splash-screen, but the angry
@@ -257,6 +259,10 @@ command, and a paremeterized color"
 ;; Set up reftex
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
+(setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
+(defun reftex-format-cref (label def-fmt reftype)
+  (format "\\cref{%s}" label))
+(setq reftex-format-ref-function 'reftex-format-cref)
 ;; Set default tex compiler
 (setq-default TeX-engine 'xetex)
 ;; Produce PDF by default 
@@ -274,9 +280,6 @@ command, and a paremeterized color"
   (local-set-key (kbd "M-j") 'point-to-register)
   )
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
-(defun reftex-format-cref (label def-fmt reftype)
-  (format "\\cref{%s}" label))
-(setq reftex-format-ref-function 'reftex-format-cref)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -379,7 +382,8 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (multiple-cursors company-coq pretty-symbols auto-complete proof-general auctex flycheck boogie-friends)))
+    (multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
+ '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
  '(verilog-auto-inst-param-value t)
