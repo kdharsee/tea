@@ -24,6 +24,9 @@ There are two things you can do about this warning:
 ;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
 (global-prettify-symbols-mode +1)
 
+;; Mouse features in a TTY emulator
+(xterm-mouse-mode +1)
+
 ;; Disable async-shell-command from spawning a buffer
 (add-to-list 'display-buffer-alist
              (cons "\\*Async Shell Command\\*.*"
@@ -181,6 +184,10 @@ command, and a paremeterized color"
 (load "~/.emacs.d/lisp/PG/generic/proof-site")
 ;; Load company-coq when opening Coq files
 (add-hook 'coq-mode-hook #'company-coq-mode)
+;; Pretty symbols with company-coq
+(setq company-coq-features/prettify-symbols-in-terminal t)
+;; Auto-complete externally defined symbols
+(setq company-coq-live-on-the-edge t)
 ;; I appreciate the effort of writing a splash-screen, but the angry
 ;; general on the gif scares me.
 (setq proof-splash-seen t)
