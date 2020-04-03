@@ -114,8 +114,12 @@ zmodload -i zsh/complist
 autoload -U select-word-style
 select-word-style bash
 
-# ADD local opt to path
+# set PATH variable
 export PATH=$HOME/.local/bin:$HOME/.local/opt/bin:/usr/local/bin:$PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
+
+# Fetch opam environment vars
+eval $(opam env)
 
 # History
 export HISTSIZE=2000
@@ -191,9 +195,6 @@ export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
 export PAGER='most'
 
-# Set up PATH and LD_LIBRARY_PATH for software installed to my home directory
-export PATH="$PATH:$HOME/bin"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib:$HOME/lib64"
 
 # Export terminal for all the colors
 # export TERM=xterm-256color
@@ -219,6 +220,7 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/lib:$HOME/lib64"
 
 # Functions for prompt
 # PS1o="$PS1"
+
 # Calculate number of lines for half terminal's height
 halfpage=$((LINES/2))
 # Construct parameter to go down/up $halfpage lines view termcap
@@ -294,9 +296,6 @@ bindkey "^M" magic-enter
 #     fi
 # }
 #export PROMPT_COMMAND=prompt_command
-
-# DIR COLORS
-# LS_COLORS=$LS_COLORS:'di=1;33:'; export LS_COLORS
 
 # set emacs keybinds for line editor
 bindkey -e
