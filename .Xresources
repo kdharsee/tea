@@ -1,33 +1,34 @@
 Xft.dpi: 192
-URxvt.font: xft:FiraCode-Retina:size=11
-URxvt.scrollBar: false
+URxvt*font: xft:DejaVu Sans Mono:size=12
+!xft:FiraCode-Regular:size=12,xtf:PowerlineSymbols,xtf:DejaVu Sans
+URxvt*scrollBar: false
 ! ! "Fake" transparency: Copies the image in the root X11 window to the background of the terminal
-URxvt.transparent: true
-URxvt.shading: 20
+! URxvt*transparent: true
+! URxvt*shading: 20
 ! "Real" transparency: Uses a compositor to find define the transparency  
-!URxvt.depth: 32
-!URxvt.background: rgba:0000/0000/0200/c800
+URxvt*depth: 32
+URxvt*background: rgba:0000/0000/0200/c800
 
 ! Copy and Paste keybinds
-URxvt.keysym.Shift-Control-V: eval:paste_clipboard
-URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt*keysym*Shift-Control-V: eval:paste_clipboard
+URxvt*keysym*Shift-Control-C: eval:selection_to_clipboard
 
 ! Dracula Xresources palette
-URxvt.foreground: #F8F8F2
-URxvt.background: #282A36
-URxvt.color0:     #000000
-URxvt.color8:     #4D4D4D
-URxvt.color1:     #FF5555
-URxvt.color9:     #FF6E67
-URxvt.color2:     #50FA7B
-URxvt.color10:    #5AF78E
-URxvt.color3:     #F1FA8C
-URxvt.color11:    #F4F99D
-URxvt.color4:     #BD93F9
-URxvt.color12:    #CAA9FA
-URxvt.color5:     #FF79C6
-URxvt.color13:    #FF92D0
-URxvt.color6:     #8BE9FD
-URxvt.color14:    #9AEDFE
-URxvt.color7:     #BFBFBF
-URxvt.color15:    #E6E6E6
+URxvt*foreground: #F8F8F2
+!URxvt*background: #282A36
+URxvt*color0:     #000000
+URxvt*color8:     #4D4D4D
+URxvt*color1:     #FF5555
+URxvt*color9:     #FF6E67
+URxvt*color2:     #50FA7B
+URxvt*color10:    #5AF78E
+URxvt*color3:     #F1FA8C
+URxvt*color11:    #F4F99D
+URxvt*color4:     #BD93F9
+URxvt*color12:    #CAA9FA
+URxvt*color5:     #FF79C6
+URxvt*color13:    #FF92D0
+URxvt*color6:     #8BE9FD
+URxvt*color14:    #9AEDFE
+URxvt*color7:     #BFBFBF
+URxvt*color15:    #E6E6E6
