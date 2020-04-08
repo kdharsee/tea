@@ -130,12 +130,12 @@ setopt hist_ignore_space
 
 # Globbing enhancments
 setopt extended_glob
-
 # zsh autosend SIGCONT after disown
 setopt AUTO_CONTINUE
-
 # zsh disable globbing from printing error on nomatch (e.g. /tmp/emacs* -> ERROR)
 setopt +o nomatch
+# disable zsh from adding dirs functionality to cd
+unsetopt autopushd pushdtohome
 
 # Start emacs server if it's not started
 server=1
@@ -166,11 +166,11 @@ alias ls='ls -h --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 alias emacsclient='emacsclient -t'
-alias emacs='emacsclient -t'
+alias emacs='\emacsclient -t'
 alias note='emacsclient -t ~/notes/notes.tex'
 #alias grep='grep -H --color=auto'
 alias grep='grep --color=always'
-alias pushd="pushd ."
+#alias pushd="pushd ."
 alias peakd='echo $(dirs -l -p | sed -n "2{p;q}")'
 alias ssh='ssh -XC'
 alias rm='rm -I'
@@ -184,10 +184,10 @@ alias scholar='scholar -c 5'
 alias less='less -R'
 # Print history from the BEGINNING OF TIME
 alias history='history 1'
-
 # Alias for xpdf reverse video (dark) mode
 alias xpdf='xpdf -rv'
-
+# Directory history
+alias dh='dirs -v'
 # Set up display
 #export DISPLAY=':0.0'
 # Set default applications
