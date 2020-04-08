@@ -363,7 +363,7 @@ command, and a paremeterized color"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(font-latex-sectioning-5-face ((t (:foreground "brightyellow" :weight bold)))))
 (put 'downcase-region 'disabled nil)
 
 (put 'upcase-region 'disabled nil)
@@ -389,7 +389,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
+    (rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
