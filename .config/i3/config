@@ -11,6 +11,9 @@
 
 set $mod Mod4
 
+# Start redshift
+exec --no-startup-id redshift-gtk
+
 # Set wallpaper
 exec --no-startup-id nitrogen --set-zoom-fill $HOME/Pictures/Wallpaper/Forrest-And-Mountains-Illustration.png
 
@@ -59,7 +62,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+d exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu: '"
+bindsym $mod+grave exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu: '"
 # start rofi (a different program launcher)
 # bindsym $mod+d exec rofi -show run -lines 5 -eh 2 -opacity "85" -font "System San Francisco Text 32" -bg "$text-color" -fg "$text-color" -hlbg "#44475A" -hlfg "#9575cd" # -bw "#44475A" -bc "#44475A" -width 100 -padding 800
 # There also is the (new) i3-dmenu-desktop which only displays applications
@@ -100,7 +103,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+` fullscreen toggle
+bindsym $mod+o fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -230,4 +233,11 @@ bar {
 }
 
 # Fading workspace transitions
-exec_always compton -f
+#exec_always compton -f
+exec_always picom -f
+
+# Assign applications to workspaces
+assign [class="Okular"] 2
+assign [class="Mail"] 4
+assign [class="Thunderbird"] 4
+assign [class="Pithos"] 3
