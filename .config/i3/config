@@ -162,6 +162,12 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
+# Move workspaces between monitors
+bindsym $mod+Control+p move workspace to output up
+bindsym $mod+Control+n move workspace to output down
+bindsym $mod+Control+b move workspace to output left
+bindsym $mod+Control+f move workspace to output right
+
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -222,6 +228,7 @@ client.background       $text-color
 bar {
   status_command i3status
   position top
+
   colors {
     background $placeholder-bg-color
     statusline $text-color
