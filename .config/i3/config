@@ -244,7 +244,7 @@ bar {
 
 # Fading workspace transitions
 #exec_always compton -f -e 0.0 -i 0.0
-exec_always picom -f -e 0.9 -i 0.9 --inactive-dim=0.5
+exec_always picom -f -e 0.9 -i 0.9 --inactive-dim=0.4 --focus-exclude "! name~=''"
 
 # Assign applications to workspaces
 assign [class="Okular"] 2
