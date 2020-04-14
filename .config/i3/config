@@ -24,8 +24,8 @@ exec --no-startup-id feh --bg-fill $wallpaper
 # Start redshift
 exec --no-startup-id redshift-gtk
 
-# Set wallpaper
-exec --no-startup-id nitrogen --set-zoom-fill $HOME/Pictures/Wallpaper/Forrest-And-Mountains-Illustration.png
+# Set modifier key
+set $mod Mod4
 
 # Disable window title bar and borders
 new_window pixel 1
