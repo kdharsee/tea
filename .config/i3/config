@@ -27,8 +27,8 @@ exec --no-startup-id redshift-gtk
 # Set modifier key
 set $mod Mod4
 
-# Disable window title bar and borders
-new_window pixel 1
+# Size window title bar and borders
+new_window pixel 0
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -251,10 +251,11 @@ bar {
 
 # Fading workspace transitions
 #exec_always compton -f -e 0.0 -i 0.0
-exec_always picom -f -e 0.9 -i 0.9 --inactive-dim=0.4 --focus-exclude "! name~=''"
+exec_always picom -f -e 0.9 -i 0.9 --inactive-dim=0.3 --focus-exclude "! name~=''"
 
 # Assign applications to workspaces
 assign [class="Okular"] 2
+assign [class="Firefox"] 2
 assign [class="Mail"] 4
 assign [class="Thunderbird"] 4
 assign [class="Pithos"] 10
