@@ -24,8 +24,14 @@ There are two things you can do about this warning:
 ;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
 (global-prettify-symbols-mode +1)
 
+;; Highlight the entire line the cursor is on
+;;(global-hl-line-mode +1)
+
 ;; Mouse features in a TTY emulator
-(xterm-mouse-mode +1)
+(setq xterm-mouse-mode t)
+
+;; Disable toolbar
+(tool-bar-mode -1)
 
 ;; Disable async-shell-command from spawning a buffer
 (add-to-list 'display-buffer-alist
@@ -389,7 +395,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
+    (markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
