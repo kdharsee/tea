@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+
+id=$(xinput list | grep Touchpad | \grep -o id=.. | cut -f 2 -d '=')
+prop=$(xinput list-props $id | grep "Natural Scrolling Enabled (...)" | cut -f 2 -d '(' | tr -d ')')
