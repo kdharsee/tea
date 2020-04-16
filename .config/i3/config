@@ -72,7 +72,7 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec dmenu_run
-bindsym $mod+grave exec "dmenu_run -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2' -fn 'monospace-10' -p 'dmenu: '"
+bindsym $mod+grave exec "dmenu_run -fn 'Noto-10.5' -nf '#F8F8F2' -nb '#282A36' -sb '#6272A4' -sf '#F8F8F2'"
 # start rofi (a different program launcher)
 # bindsym $mod+d exec rofi -show run -lines 5 -eh 2 -opacity "85" -font "System San Francisco Text 32" -bg "$text-color" -fg "$text-color" -hlbg "#44475A" -hlfg "#9575cd" # -bw "#44475A" -bc "#44475A" -width 100 -padding 800
 # There also is the (new) i3-dmenu-desktop which only displays applications
