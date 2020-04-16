@@ -1,4 +1,8 @@
 #!/usr/bin/sh
 
+# Fetch device ID
 id=$(xinput list | grep Touchpad | \grep -o id=.. | cut -f 2 -d '=')
+# Fetch property ID natural scrolling for that fetched device ID
 prop=$(xinput list-props $id | grep "Natural Scrolling Enabled (...)" | cut -f 2 -d '(' | tr -d ')')
+# Set Natural Scrolling Enabled to 1
+xinput set-prop $id $prop 1
