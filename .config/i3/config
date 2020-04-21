@@ -1,11 +1,12 @@
+
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 # Set mod key (Mod1=<Alt>, Mod4=<Super>)
 set $mod Mod4
 
-exec --no-startup-id xrandr  --output eDP1 --primary --mode 1920x1080 --auto --output DP1 --above eDP1; sleep 1
-
+# exec --no-startup-id xrandr --output DP1 --primary --mode 1920x1080 --auto --output eDP1 --mode 1920x1080 --output DP1 --above eDP1 --auto; sleep 1
+#exec --no-startup-id xrandr --output DP1 --primary --auto --output eDP1 --below DP1 --auto; sleep 1
 # set default desktop layout (default is tiling)
 # workspace_layout tabbed <stacking|tabbed>
 
@@ -30,6 +31,8 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec terminal
+# start a terminal in a recent directory
+bindsym $mod+Shift+Return exec terminal -cd "$(cat /tmp/whereami)"
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -44,7 +47,7 @@ bindsym $mod+z exec --no-startup-id morc_menu
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
+#exec --no-startup-id volumeicon
 bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 exec --no-startup-id pulseaudio
 exec --no-startup-id pa-applet
@@ -215,9 +218,11 @@ for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 for_window [class="Microsoft Teams - Preview"] floating enable
+for_window [class="Slack"] floating enable border normal
 # Assign applications to workspaces
 assign [class="Okular"] 2
-assign [class="Firefox"] 2
+assign [class="firefox"] 2
+assign [class="Google-chrome"] 2
 assign [class="Mail"] 4
 assign [class="Thunderbird"] 4
 assign [class="Pithos"] 10
@@ -259,52 +264,70 @@ mode "resize" {
         # Pressing right will grow the window’s width.
         # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym b resize shrink width 10 px or 10 ppt
-        bindsym n resize grow height 10 px or 10 ppt
-        bindsym p resize shrink height 10 px or 10 ppt
-        bindsym f resize grow width 10 px or 10 ppt
+        bindsym b resize shrink width 10 px or 5 ppt
+        bindsym n resize grow height 10 px or 5 ppt
+        bindsym p resize shrink height 10 px or 5 ppt
+        bindsym f resize grow width 10 px or 5 ppt
 
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Left resize shrink width 10 px or 5 ppt
+        bindsym Down resize grow height 10 px or 5 ppt
+        bindsym Up resize shrink height 10 px or 5 ppt
+        bindsym Right resize grow width 10 px or 5 ppt
 
         # back to normal: Enter or Escape or $mod+r
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
 }
-
 bindsym $mod+r mode "resize"
+
+# Move window
+mode "move" {
+        bindsym b              move left   10 px
+        bindsym n              move down   10 px
+        bindsym p              move up     10 px
+        bindsym f              move right  10 px
+        bindsym Shift+b          move left   50 px
+        bindsym Shift+n          move down   50 px
+        bindsym Shift+p          move up     50 px
+        bindsym Shift+f          move right  50 px
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+m mode "default"
+}
+bindsym $mod+m mode "move" focus floating
 
 # Lock screen
 bindsym $mod+Control+l exec --no-startup-id blurlock
 
-set $wallpaper "$HOME/Pictures/Wallpaper/Forrest-And-Mountains-Illustration.png"
+set $wallpaper "$HOME/tea/Wallpapers/night_of_ubuntu.jpg"
 
 # Autostart applications
+exec --no-startup-id reverse_scrolling # Reverse scrolling direction
+exec --no-startup-id display_setup # Set up displays
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id feh --bg-fill $wallpaper
+exec --no-startup-id sleep 1; feh --bg-fill $wallpaper # Set wallpaper
+#exec_always --no-startup-id nitrogen --set-zoom-fill $wallpaper
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 #exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
-# exec --no-startup-id blueman-applet
-# exec_always --no-startup-id sbxkb
+#exec --no-startup-id clipit
+#exec --no-startup-id blueman-applet
+#exec_always --no-startup-id sbxkb
 #exec --no-startup-id start_conky_maia
-# exec --no-startup-id start_conky_green
+#exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 10 -locker blurlock
 exec --no-startup-id redshift-gtk
-exec --no-startup-id xset r rate 200 60
+exec --no-startup-id xset r rate 250 60
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
 
-# Reverse scrolling direction
-exec --no-startup-id reverse_scrolling
 # Compositor
-exec sleep 1; picom -f -b -e 0.9 -i 0.9 --inactive-dim=0.3 --focus-exclude "! name~=''"
+exec sleep 1; picom -f -b -e 0.75 -i 0.75 --inactive-dim=0.3 --focus-exclude "! name~=''"
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
@@ -387,7 +410,7 @@ bar {
 }
 
 # hide/unhide i3status bar
-bindsym $mod+m bar mode toggle
+# bindsym $mod+m bar mode toggle
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
