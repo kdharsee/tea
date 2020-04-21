@@ -194,7 +194,12 @@ alias dh='dirs -v'
 export ALTERNATE_EDITOR="emacs"
 export EDITOR='emacsclient -t'
 export PAGER='most'
-
+# Execute this after each new prompt (BASH)
+export PROMPT_COMMAND="pwd > /tmp/whereami"
+# Execute the PROMPT_COMMAND with zsh tools
+whereami() { eval $PROMPT_COMMAND }
+# Register hook to execute on changed directory
+add-zsh-hook chpwd whereami
 
 # Export terminal for all the colors
 # export TERM=xterm-256color
