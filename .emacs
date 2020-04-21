@@ -166,6 +166,10 @@ command, and a paremeterized color"
 ;; Set background color
 ;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
 ;; Don't display a background
+(defun on-after-init ()
+  (unless (display-graphic-p (selected-frame))
+    (set-face-background 'default "unspecified-bg" (selected-frame))))
+(add-hook 'window-setup-hook 'on-after-init)
 ;; (defun on-frame-open (frame)
 ;;   (if (not (display-graphic-p frame))
 ;;     (set-face-background 'default "unspecified-bg" frame)))
@@ -179,7 +183,6 @@ command, and a paremeterized color"
 (setq inhibit-splash-screen t); Disable splash screen
 (setq visible-bell t); Flashes on error
 
-
 ;; Disable blinking cursor
 (setq visible-cursor nil)
 
@@ -187,7 +190,7 @@ command, and a paremeterized color"
 ;; Proof General Package / Coq things
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Open .v files with Proof General's Coq mode
-(load "~/.emacs.d/lisp/PG/generic/proof-site")
+;;(load "~/.emacs.d/lisp/PG/generic/proof-site")
 ;; Load company-coq when opening Coq files
 (add-hook 'coq-mode-hook #'company-coq-mode)
 ;; Pretty symbols with company-coq
@@ -395,7 +398,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
+    (pdf-tools markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
