@@ -49,9 +49,7 @@ XTerm*selectToClipboard: true
 Xcursor.theme: xcursor-breeze-snow
 Xcursor.size:                     0
 
-!URxvt*font: xft:Fira Code Retina:size=12,xft:DejaVu Sans Mono:size=12,xft:Source Code Pro:size=12,xft:DejaVu Sans:size=12
-!URxvt*font: xft:DejaVu Sans Mono:size=13,xft:DejaVu Sans:size=13
-URxvt*font: xft:DejaVu Sans Mono:size=12,xft:DejaVu Sans:size=12
+URxvt*font: xft:DejaVu Sans Mono:size=13,xft:Source Code Pro:size=13,xft:DejaVu Sans:size=13
 
 ! alternative font settings with 'terminus':
 ! URxvt.font:      -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso10646-1
@@ -59,7 +57,7 @@ URxvt*font: xft:DejaVu Sans Mono:size=12,xft:DejaVu Sans:size=12
 !! terminus names see end of file!
 
 URxvt.depth:                      32
-URxvt*background: rgba:0000/0000/0200/c800
+!URxvt*background: rgba:0000/0000/0200/c800
 URxvt*scrollBar:                  false
 URxvt*mouseWheelScrollPage:       false
 URxvt*cursorBlink:                true
@@ -68,9 +66,9 @@ URxvt*cursorBlink:                true
 URxvt*saveLines:                  5000
 
 ! for 'fake' transparency (without Compton) uncomment the following three lines
-! URxvt*transparent: true
-! URxvt*shading: 30
-! URxvt*inheritPixmap:            true
+URxvt*transparent: true
+URxvt*shading: 30
+URxvt*inheritPixmap:            true
 ! URxvt*transparent:              true
 ! URxvt*shading:                  138
 
