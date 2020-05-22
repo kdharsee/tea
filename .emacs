@@ -170,11 +170,11 @@ command, and a paremeterized color"
   (unless (display-graphic-p (selected-frame))
     (set-face-background 'default "unspecified-bg" (selected-frame))))
 (add-hook 'window-setup-hook 'on-after-init)
-;; (defun on-frame-open (frame)
-;;   (if (not (display-graphic-p frame))
-;;     (set-face-background 'default "unspecified-bg" frame)))
-;; (on-frame-open (selected-frame))
-;; (add-hook 'after-make-frame-functions 'on-frame-open)
+(defun on-frame-open (frame)
+  (if (not (display-graphic-p frame))
+    (set-face-background 'default "unspecified-bg" frame)))
+(on-frame-open (selected-frame))
+(add-hook 'after-make-frame-functions 'on-frame-open)
 
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
@@ -296,7 +296,8 @@ command, and a paremeterized color"
   (local-set-key (kbd "M-j") 'point-to-register)
   )
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
-
+;; Add lstlisting to the set of verbatim environments
+(add-to-list 'LaTeX-verbatim-environments "lstlisting")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -398,7 +399,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (pdf-tools markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete auctex flycheck boogie-friends)))
+    (auctex pdf-tools markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete flycheck boogie-friends)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
