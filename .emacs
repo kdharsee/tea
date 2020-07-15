@@ -62,16 +62,11 @@ command, and a paremeterized color"
 (defun clip ()
   (interactive)
   (if (use-region-p)
-      (shell-command
+      (async-shell-command
        (format
         "echo '%s' | xclip -selection c"
-        (buffer-substring (mark) (point))))
+        (buffer-substring (region-beginning) (region-end))))
     ()))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ibuffer over buffer-list
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Visual Bell adjustment
@@ -166,10 +161,10 @@ command, and a paremeterized color"
 ;; Set background color
 ;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
 ;; Don't display a background
-(defun on-after-init ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-(add-hook 'window-setup-hook 'on-after-init)
+;; (defun on-after-init ()
+;;   (unless (display-graphic-p (selected-frame))
+;;     (set-face-background 'default "unspecified-bg" (selected-frame))))
+;; (add-hook 'window-setup-hook 'on-after-init)
 (defun on-frame-open (frame)
   (if (not (display-graphic-p frame))
     (set-face-background 'default "unspecified-bg" frame)))
@@ -262,7 +257,7 @@ command, and a paremeterized color"
 (add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
-;; AUC TeX
+(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
@@ -288,7 +283,9 @@ command, and a paremeterized color"
                            (progn
                              (TeX-fold-mode 1)
                              ;; Enable folding of cref
-                             (add-to-list 'TeX-fold-macro-spec-list '("[cr]" ("cref" "Cref"))))))
+                             (add-to-list
+                             'TeX-fold-macro-spec-list
+                             '("[cr]" ("cref" "Cref"))))))
 (defun LaTeX-mode-kbd ()
   (local-set-key (kbd "M-o") 'delete-other-windows)
   (local-set-key (kbd "C-M-o") 'delete-window)
@@ -297,7 +294,8 @@ command, and a paremeterized color"
   )
 (add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
 ;; Add lstlisting to the set of verbatim environments
-(add-to-list 'LaTeX-verbatim-environments "lstlisting")
+(add-hook 'LaTeX-mode-hook (lambda () 
+			     (add-to-list 'LaTeX-verbatim-environments "lstlisting")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (normal-erase-is-backspace-mode 0)
@@ -349,7 +347,6 @@ command, and a paremeterized color"
 ;; MODIFIED KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
-                                        ;(global-set-key (kbd "M-RET") 'open-line)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -363,6 +360,8 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-M-o") 'delete-window)
 (global-set-key (kbd "M-j") 'point-to-register)
 (global-set-key (kbd "C-j") 'jump-to-register)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x k") 'kill-current-buffer)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
