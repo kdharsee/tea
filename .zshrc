@@ -68,7 +68,7 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+#plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -119,7 +119,8 @@ export PATH=$HOME/.local/bin:$HOME/.local/opt/bin:/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
 
 # Fetch opam environment vars
-eval $(opam env)
+test -r /home/coconut/.opam/opam-init/init.zsh && . /home/coconut/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
 
 # History
 export HISTSIZE=2000
@@ -138,24 +139,37 @@ setopt +o nomatch
 unsetopt autopushd pushdtohome
 
 # Start emacs server if it's not started
-server=1
-for file in /tmp/emacs*
-do 
-    test -e $file/server
+function emacs_server_start()
+{
+    server=0
+    running=0
+    server_file=''
+    for file in /tmp/emacs*
+    do 
+        test -O $file/server
+        if [[ $? -eq 0 ]]
+        then
+            server=1
+            server_file=$file/server
+        fi
+    done
+    ps -C 'emacs' uf | grep $USER | grep -q emacs
     if [[ $? -eq 0 ]]
     then
-        server=0
+        running=1
     fi
-done
-test -e "~/.emacs.d/server"
-if [[ $? -eq 0 ]]
-then
-    server=0
-fi
-if [[ $server -ne 0 ]]
-then
-	\emacs --daemon -nw
-fi
+
+    if [[ $running -eq 0 ]]
+    then
+        if [[ $server -ne 0 ]]
+        then
+            echo "Deleting emacs server file $server_file" 
+            rm $server_file
+        fi
+	      \emacs --daemon -nw
+    fi
+}
+emacs_server_start
 
 # Define aliases
 alias tags='find -E . -type f -regex ".*\.(c|h|S|cpp)" | xargs etags -a'
@@ -170,6 +184,7 @@ alias emacs='\emacsclient -t'
 alias note='emacsclient -t ~/notes/notes.tex'
 #alias grep='grep -H --color=auto'
 alias grep='grep --color=auto'
+alias grepc='grep --color=yes'
 #alias pushd="pushd ."
 alias peakd='echo $(dirs -l -p | sed -n "2{p;q}")'
 alias ssh='ssh -XC'
@@ -199,7 +214,7 @@ export PROMPT_COMMAND="pwd > /tmp/whereami"
 # Execute the PROMPT_COMMAND with zsh tools
 whereami() { eval $PROMPT_COMMAND }
 # Register hook to execute on changed directory
-add-zsh-hook chpwd whereami
+#add-zsh-hook chpwd whereami
 
 # Export terminal for all the colors
 # export TERM=xterm-256color
