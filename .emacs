@@ -259,7 +259,7 @@ command, and a paremeterized color"
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 (add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
+;;(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -362,6 +362,7 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-j") 'jump-to-register)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-x /") 'comment-line)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
