@@ -257,7 +257,7 @@ command, and a paremeterized color"
 (add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
-(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
+;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;;(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
@@ -285,7 +285,8 @@ command, and a paremeterized color"
                              ;; Enable folding of cref
                              (add-to-list
                              'TeX-fold-macro-spec-list
-                             '("[cr]" ("cref" "Cref"))))))
+                             '("[cr]" ("cref" "Cref")))
+                             )))
 (defun LaTeX-mode-kbd ()
   (local-set-key (kbd "M-o") 'delete-other-windows)
   (local-set-key (kbd "C-M-o") 'delete-window)
@@ -368,12 +369,12 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(font-latex-sectioning-5-face ((t (:foreground "brightyellow" :weight bold)))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(font-latex-sectioning-5-face ((t (:foreground "brightyellow" :weight bold)))))
 (put 'downcase-region 'disabled nil)
 
 (put 'upcase-region 'disabled nil)
