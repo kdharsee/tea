@@ -62,6 +62,9 @@ bindsym XF86AudioPause exec playerctl pause-pause
 bindsym XF86AudioStop exec playerctl stop
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl -- set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl -- set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Start Applications
 #bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
@@ -230,13 +233,14 @@ for_window [instance="urxvt_scratchpad"] move scratchpad; scratchpad show; move 
 assign [instance="Navigator"] $ws1
 assign [class="firefox"] $ws1
 assign [class="Google-chrome"] $ws1
+assign [instance="Mail"] $ws4
+assign [class="Thunderbird"] $ws4
+assign [class="Outlook"] $ws4
+assign [class="Slack"] $ws5
 assign [instance="spotify"] $ws9
 assign [class="Spotify"] $ws9
 assign [class="Pithos"] $ws9
 assign [class="Pandora"] $ws9
-assign [instance="Mail"] $ws4
-assign [class="Thunderbird"] $ws4
-assign [class="Outlook"] $ws4
 
 # switch to workspace with urgent window automatically
 # for_window [urgent=latest] focus
