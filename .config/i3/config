@@ -227,14 +227,16 @@ for_window [class="Pithos"] floating enable border normal
 for_window [instance="urxvt_scratchpad"] floating enable
 for_window [instance="urxvt_scratchpad"] move scratchpad; scratchpad show; move position 7px 7px; move scratchpad
 # Assign applications to workspaces
-assign [instance="Navigator"] $ws2
-assign [class="firefox"] $ws2
-assign [class="Google-chrome"] $ws2
+assign [instance="Navigator"] $ws1
+assign [class="firefox"] $ws1
+assign [class="Google-chrome"] $ws1
 assign [instance="spotify"] $ws9
 assign [class="Spotify"] $ws9
 assign [class="Pithos"] $ws9
-assign [instance="Mail"] $ws10
-assign [class="Thunderbird"] $ws10
+assign [class="Pandora"] $ws9
+assign [instance="Mail"] $ws4
+assign [class="Thunderbird"] $ws4
+assign [class="Outlook"] $ws4
 
 # switch to workspace with urgent window automatically
 # for_window [urgent=latest] focus
@@ -337,7 +339,7 @@ exec_always --no-startup-id fix_xcursor
 exec --no-startup-id urxvt -name urxvt_scratchpad -geometry 64x10
 
 # Compositor
-exec sleep 1; picom -f -b -e 0.75 -i 0.75 --inactive-dim=0.3 --focus-exclude "! name~=''"
+#exec sleep 1; picom -f -b -e 0.75 -i 0.75 --inactive-dim=0.3 --focus-exclude "! name~=''"
 
 # Color palette used for the terminal ( ~/.Xresources file )
 # Colors are gathered based on the documentation:
