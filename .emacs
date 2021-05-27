@@ -31,7 +31,7 @@ There are two things you can do about this warning:
 (setq xterm-mouse-mode t)
 
 ;; Disable toolbar
-(tool-bar-mode -1)
+;;(tool-bar-mode -1)
 
 ;; Disable async-shell-command from spawning a buffer
 (add-to-list 'display-buffer-alist
@@ -364,6 +364,8 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x k") 'kill-current-buffer)
 (global-set-key (kbd "C-x /") 'comment-line)
+(global-set-key (kbd "C-x f") 'dedicated-mode)
+(global-set-key (kbd "<f5>") 'revert-buffer)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -400,7 +402,7 @@ command, and a paremeterized color"
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (auctex pdf-tools markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete flycheck boogie-friends)))
+    (dedicated buffer-move proof-general auctex pdf-tools markdown-mode helm fzf sml-mode rainbow-mode multiple-cursors company-coq pretty-symbols auto-complete flycheck boogie-friends)))
  '(safe-local-variable-values (quote ((TeX-master . t))))
  '(verilog-align-ifelse t)
  '(verilog-auto-delete-trailing-whitespace t)
@@ -419,3 +421,9 @@ command, and a paremeterized color"
  '(verilog-indent-level-module 0)
  '(verilog-tab-to-comment t))
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
