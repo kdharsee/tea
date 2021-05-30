@@ -50,7 +50,7 @@ There are two things you can do about this warning:
 command, and a paremeterized color"
   (interactive "p\nsEntry Color: ")
   (insert (format
-           "\\begin{entry}{%s}{%s}\\label{entry:%s}\n\n\n\n\\end{entry}\n"
+           "\\begin{entry}{%s}{%s}\n\\label{entry:%s}\n\n\n\n\\end{entry}\n"
            color
            (shell-command-to-string
             "date --iso-8601='seconds' | tr -d '\n' ")
@@ -94,7 +94,7 @@ command, and a paremeterized color"
 ;; Enable linum-mode unless file too large
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+;;(global-display-line-numbers-mode)
 ;; (global-linum-mode 0)
 ;; (defun buffer-too-big-p ()
 ;;   (or (> (buffer-size) (* 5000 80))
@@ -103,7 +103,7 @@ command, and a paremeterized color"
 ;; 	  (lambda ()
 ;; 	    ;; turn off `linum-mode' when there are more than 5000 lines
 ;; 	    (if (buffer-too-big-p) (linum-mode -1))))
-
+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Highlight Indents
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -132,7 +132,13 @@ command, and a paremeterized color"
 ;; (setq langtool-java-classpath
 ;;       "/usr/share/languagetool:/usr/share/java/languagetool/*")
 ;; (require 'langtool)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Load Bluespec Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(if (file-exists-p "~/.emacs.d/bluespec/")
+    (progn (add-to-list 'load-path "~/.emacs.d/bluespec/")
+           (load "bsv-mode")
+           (add-hook 'bsv-mode-hook `font-lock-fontify-buffer)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto Save backup directory
@@ -177,7 +183,7 @@ command, and a paremeterized color"
 ;;(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
 (setq inhibit-splash-screen t); Disable splash screen
 (setq visible-bell t); Flashes on error
-
+(setq frame-background-mode 'dark)
 ;; Disable blinking cursor
 (setq visible-cursor nil)
 
@@ -254,11 +260,12 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell check when entering latex-mode
 ;;(add-hook 'tex-mode-hook #'flyspell-mode)
-(add-hook 'tex-mode-hook (lambda () (set-fill-column 85)))
+(add-hook 'tex-mode-hook (lambda () (set-fill-column 70)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
 ;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 70)))
 ;;(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
 (setq TeX-auto-save t)
@@ -303,7 +310,7 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Fill Column
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq-default fill-column 85)
+(setq-default fill-column 75)
 
 ;; Make _ a symbol constituent in the standard syntax table (inherited by most)
 ;; (modify-syntax-entry ?_ "_");; standard-syntax-table)
@@ -366,6 +373,8 @@ command, and a paremeterized color"
 (global-set-key (kbd "C-x /") 'comment-line)
 (global-set-key (kbd "C-x f") 'dedicated-mode)
 (global-set-key (kbd "<f5>") 'revert-buffer)
+(global-set-key "\C-x\C-\\" 'goto-last-change)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -387,18 +396,16 @@ command, and a paremeterized color"
  ;; If there is more than one, they won't work right.
  '(LaTeX-command "latex -synctex=1")
  '(TeX-view-program-selection
-   (quote
-    (((output-dvi has-no-display-manager)
+   '(((output-dvi has-no-display-manager)
       "dvi2tty")
      ((output-dvi style-pstricks)
       "dvips and gv")
      (output-dvi "xdvi")
      (output-pdf "Okular")
-     (output-html "xdg-open"))))
+     (output-html "xdg-open")))
  '(cdlatex-paired-parens "$([{")
  '(custom-safe-themes
-   (quote
-    ("55c2c0d811cdecd311ebe27f82b24a5410d38c1ff6117c91e5ba88031829ee06" default)))
+   '("55c2c0d811cdecd311ebe27f82b24a5410d38c1ff6117c91e5ba88031829ee06" default))
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
