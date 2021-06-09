@@ -1,48 +1,26 @@
 {
-	"name": "Vimium C",
-	"@time": "10/2/2020, 10:55:10 AM",
-	"time": 1601650510023,
-	"environment": {
-		"extension": "1.86.1",
-		"platform": "win",
-		"chrome": 85
-	},
-	"keyMappings": [
-		"# Insert your preferred key mappings here.",
-		"unmapAll",
-		"map n scrollDown",
-		"map N scrollPageDown",
-		"map p scrollUp",
-		"map P scrollPageUp",
-		"map f scrollRight",
-		"map b scrollLeft",
-		"map <a-f> goForward",
-		"map <a-b> goBack",
-		"map / enterFindMode",
-		"map . performFind",
-		"map , performBackwardsFind",
-		"map t createTab",
-		"map F nextTab",
-		"map B previousTab",
-		"map o visitPreviousTab",
-		"map s LinkHints.activateMode",
-		"map S LinkHints.activateModeToOpenInNewTab",
-		"map w LinkHints.activateModeToCopyLinkUrl",
-		""
-	],
-	"linkHintCharacters": "asdfgqwerthjklyuiop1234567890zxcvbnm",
-	"searchEngines": [
-		"# More examples.",
-		"#",
-		"# (Vimium C supports search completion Google, Wikipedia,",
-		"# and so on, as above, and for these.)",
-		"#",
-		"# l: https://www.google.com/search?q=%s&btnI I'm feeling lucky",
-		"# y: https://www.youtube.com/results?search_query=%s YouTube",
-		"# gm: https://www.google.com/maps?q=%s Google maps",
-		"# d: https://duckduckgo.com/?q=%s DuckDuckGo",
-		"# az: https://www.amazon.com/s/?field-keywords=%s Amazon",
-		"# qw: https://www.qwant.com/?q=%s Qwant",
-		""
-	]
+  "settingsVersion": "1.66",
+  "exclusionRules": [
+    {
+      "pattern": "https?://mail.google.com/*",
+      "passKeys": ""
+    }
+  ],
+  "filterLinkHints": false,
+  "waitForEnterForFilteredHints": true,
+  "hideHud": false,
+  "keyMappings": "# Insert your preferred key mappings here\nunmapAll\nmap n scrollDown\nmap N scrollPageDown\nmap p scrollUp\nmap P scrollPageUp\nmap f scrollRight\nmap b scrollLeft\nmap <a-f> goForward\nmap <a-b> goBack\nmap / enterFindMode\nmap . performFind\nmap , performBackwardsFind\nmap t createTab\nmap F nextTab\nmap B previousTab\nmap o visitPreviousTab\nmap s LinkHints.activateMode\nmap S LinkHints.activateModeToOpenInNewTab\nmap w LinkHints.activateModeToCopyLinkUrl",
+  "linkHintCharacters": "asdfgqwerthjklyuiop1234567890zxcvbnm",
+  "linkHintNumbers": "0123456789",
+  "newTabUrl": "about:newtab",
+  "nextPatterns": "next,more,newer,>,›,→,»,≫,>>",
+  "previousPatterns": "prev,previous,back,older,<,‹,←,«,≪,<<",
+  "regexFindMode": false,
+  "ignoreKeyboardLayout": false,
+  "scrollStepSize": 60,
+  "smoothScroll": true,
+  "grabBackFocus": false,
+  "searchEngines": "",
+  "searchUrl": "https://www.google.com/search?q=",
+  "userDefinedLinkHintCss": "div > .vimiumHintMarker {\n/* linkhint boxes */\nbackground: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF785),\n  color-stop(100%,#FFC542));\nborder: 1px solid #E3BE23;\n}\n\ndiv > .vimiumHintMarker span {\n/* linkhint text */\ncolor: black;\nfont-weight: bold;\nfont-size: 12px;\n}\n\ndiv > .vimiumHintMarker > .matchingCharacter {\n}"
 }
