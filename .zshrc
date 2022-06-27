@@ -68,7 +68,11 @@ ZSH_THEME="dracula"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-#plugins=(git)
+plugins=(
+    git
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -116,10 +120,11 @@ select-word-style bash
 
 # set PATH variable
 export PATH=$HOME/.local/bin:$HOME/.local/opt/bin:/usr/local/bin:$PATH
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
+export PATH=$PATH:/usr/local/go/bin
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
 
 # Fetch opam environment vars
-test -r /home/coconut/.opam/opam-init/init.zsh && . /home/coconut/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+test -r ${HOME}/.opam/opam-init/init.zsh && . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 
 # History
@@ -166,12 +171,14 @@ function emacs_server_start()
             echo "Deleting emacs server file $server_file" 
             rm $server_file
         fi
-	      \emacs --daemon -nw
+	      \emacs -nw --daemon
     fi
 }
 emacs_server_start
 
 # Define aliases
+alias gef="\gdb -q -x ~/.gefinit"
+alias gdb="gdb -q"
 alias tags='find -E . -type f -regex ".*\.(c|h|S|cpp)" | xargs etags -a'
 alias clip='xclip -selection c'
 alias sudo='sudo '
@@ -180,6 +187,7 @@ alias ls='ls -h --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 alias emacsclient='emacsclient -t'
+#alias emacs='\emacsclient -t'
 alias emacs='\emacsclient -t'
 alias note='emacsclient -t ~/notes/notes.tex'
 #alias grep='grep -H --color=auto'
@@ -203,6 +211,7 @@ alias history='history 1'
 alias xpdf='xpdf -rv'
 # Directory history
 alias dh='dirs -v'
+alias xargs='xargs '
 # Set up display
 #export DISPLAY=':0.0'
 # Set default applications
@@ -334,3 +343,17 @@ function sshretry()
     autoretry ssh -o "ConnectTimeout=2" "$@"
 }
 
+
+function emacsline()
+{
+    cut -d ":" -f 1,2 | sed 's|\(.*\):\(.*\)|+\2 \1|g' | xargs emacs
+}
+function findmissingcite()
+{
+    grep -i undef ./*.log | grep -oP "\`.*?\'" | sed "s/[\`\']//g" | xargs -I {} grep --color=always {} ./*.tex | sort
+}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Start starship promp
+eval "$(starship init zsh)"
