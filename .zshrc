@@ -71,7 +71,6 @@ ZSH_THEME="dracula"
 plugins=(
     git
     zsh-syntax-highlighting
-    zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -119,13 +118,20 @@ autoload -U select-word-style
 select-word-style bash
 
 # set PATH variable
-export PATH=$HOME/.local/bin:$HOME/.local/opt/bin:/usr/local/bin:$PATH
+export PATH=$PATH:/opt/miniconda3/bin
+export PATH=$PATH:/opt/riscv/bin
+export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/.local/opt/bin
+export PATH=$PATH:$HOME/.local/bin
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
+
+# Machine-specific Environment Variables
+export YOSYSHQ_LICENSE=/home/kdharsee/Research/decaf/yosys_official_builds/tabbycad-rochester-220620.lic
+
 
 # Fetch opam environment vars
 test -r ${HOME}/.opam/opam-init/init.zsh && . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
 
 # History
 export HISTSIZE=2000
@@ -142,7 +148,12 @@ setopt AUTO_CONTINUE
 setopt +o nomatch
 # disable zsh from adding dirs functionality to cd
 unsetopt autopushd pushdtohome
+# Bash compatibilty mode
+autoload bashcompinit
+bashcompinit
 
+# Emacs config
+EMACS_GUI=1
 # Start emacs server if it's not started
 function emacs_server_start()
 {
@@ -171,25 +182,38 @@ function emacs_server_start()
             echo "Deleting emacs server file $server_file" 
             rm $server_file
         fi
-	      \emacs -nw --daemon
+        if [[ $EMACS_GUI -eq 0 ]]
+        then
+	          \emacs -nw --daemon
+            alias emacsclient='emacsclient -t'
+        else
+            \emacs --daemon
+            alias emacsclient='emacsclient -n'
+        fi
+        alias emacs="emacsclient"
     fi
 }
+
 emacs_server_start
 
-# Define aliases
+if [[ $EMACS_GUI -eq 0 ]]
+then
+    alias emacsclient='emacsclient -t'
+else
+    alias emacsclient='emacsclient -n'
+fi
+alias emacs="emacsclient"
+
+# Define static aliases
 alias gef="\gdb -q -x ~/.gefinit"
 alias gdb="gdb -q"
-alias tags='find -E . -type f -regex ".*\.(c|h|S|cpp)" | xargs etags -a'
+alias tags='find . -type f -regextype egrep -regex ".*\.(c|h|S|cpp|cc)" | xargs etags -a'
 alias clip='xclip -selection c'
 alias sudo='sudo '
 alias mv='mv -i'
 alias ls='ls -h --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
-alias emacsclient='emacsclient -t'
-#alias emacs='\emacsclient -t'
-alias emacs='\emacsclient -t'
-alias note='emacsclient -t ~/notes/notes.tex'
 #alias grep='grep -H --color=auto'
 alias grep='grep --color=auto'
 alias grepc='grep --color=yes'
@@ -199,7 +223,8 @@ alias ssh='ssh -XC'
 alias rm='rm -I'
 alias install='install -b' # Always make a backup
 alias tl='tail -f /var/log/messages'
-alias cd='cd -P'
+#alias cd='cd -P' # Alias cd to resolve symbolic links to realpath
+alias pd="pushd"
 alias qemu='qemu-system-x86_64'
 alias qemu-kvm='qemu --enable-kvm'
 alias lp='lp -o fit-to-page -o sides=two-sided-long-edge'
@@ -279,6 +304,8 @@ function magic-enter() {
         zle accept-line
     fi
 }
+# forward-word to first character, not first alpha
+zle -A emacs-forward-word forward-word
 zle -N magic-enter
 bindkey "^M" magic-enter    
 
@@ -356,4 +383,4 @@ function findmissingcite()
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Start starship promp
-eval "$(starship init zsh)"
+#eval "$(starship init zsh)"
