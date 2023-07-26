@@ -194,6 +194,11 @@ function emacs_server_start()
     fi
 }
 
+function emacs_server_restart() {
+    killall emacs
+    emacs_server_start
+}
+
 emacs_server_start
 
 if [[ $EMACS_GUI -eq 0 ]]
