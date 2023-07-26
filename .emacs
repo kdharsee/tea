@@ -252,8 +252,9 @@ command, and a paremeterized color"
 ;(add-hook 'tex-mode-hook (lambda () (set-fill-column 70)))
 (add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
 (add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
+(add-hook 'text-mode-hook (lambda () (flyspell-mode 1)))
 ;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
 ;(require 'olivetti)
 ;(add-hook 'LaTeX-mode-hook 'olivetti-mode)
 (add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 100000)))
@@ -261,10 +262,10 @@ command, and a paremeterized color"
 (add-hook 'LaTeX-mode-hook (setq reftex-toc-follow-mode 'nil))
 ;;(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
 ;; Needed for latex many packages
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
+(setq TeX-parse-self t) ; Enable parse on load.
+(setq TeX-auto-save t) ; Enable parse on save.
 ;; Use xetex (instead of pdflatex) 
-(setq-default TeX-engine 'xetex)
+;;(setq-default TeX-engine 'xetex)
 ;; Ask for master file when using \input
 (setq-default TeX-master nil)
 ;; Set up reftex
@@ -275,9 +276,9 @@ command, and a paremeterized color"
 ;;   (format "\\cref{%s}" label))
 ;;(setq reftex-format-ref-function 'reftex-format-cref)
 ;; Set default tex compiler
-(setq-default TeX-engine 'xetex)
+;(setq-default TeX-engine 'xetex)
 ;; Produce PDF by default 
-(setq-default TeX-PDF-mode t)
+;(setq-default TeX-PDF-mode t)
 ;; enable fold-mode by default in tex-files
 ;; (add-hook 'TeX-mode-hook (lambda ()
 ;;                            (progn
@@ -287,13 +288,6 @@ command, and a paremeterized color"
 ;;                              'TeX-fold-macro-spec-list
 ;;                              '("[cr]" ("cref" "Cref")))
 ;;                              )))
-(defun LaTeX-mode-kbd ()
-  (local-set-key (kbd "M-o") 'delete-other-windows)
-  (local-set-key (kbd "C-M-o") 'delete-window)
-  (local-set-key (kbd "C-j") 'jump-to-register)
-  (local-set-key (kbd "M-j") 'point-to-register)
-  )
-(add-hook 'LaTeX-mode-hook 'LaTeX-mode-kbd)
 ;; Add lstlisting to the set of verbatim environments
 (add-hook 'LaTeX-mode-hook (lambda () 
                              (add-to-list 'LaTeX-verbatim-environments "lstlisting")))
@@ -308,6 +302,7 @@ command, and a paremeterized color"
 (custom-theme-set-faces
  'user
  '(org-block ((t (:inherit fixed-pitch))))
+ '(org-table ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
  ;'(org-document-info ((t (:foreground "dark orange"))))
@@ -329,6 +324,7 @@ command, and a paremeterized color"
 (defun my-org-config ()
   (org-bullets-mode)
   (variable-pitch-mode 1)
+  (set-face-attribute)
   (setq fill-column 100000) 
 )
 (add-hook 'org-mode-hook 'my-org-config)
@@ -377,8 +373,8 @@ command, and a paremeterized color"
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
-(require 'mini-modeline)
-(mini-modeline-mode t)
+;; (require 'mini-modeline)
+;; (mini-modeline-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; STATIC KEYBINDINGS
@@ -417,108 +413,14 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; (custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(ansi-color-faces-vector
-;;    [default bold shadow italic underline bold bold-italic bold])
-;;  '(ansi-color-names-vector
-;;    ["#272822" "#F92672" "#A6E22E" "#E6DB74" "#66D9EF" "#FD5FF0" "#A1EFE4" "#F8F8F2"])
-;;  '(ansi-term-color-vector
-;;    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
-;;  '(compilation-message-face 'default)
-;;  '(custom-safe-themes
-;;    '("a0feb1322de9e26a4d209d1cfa236deaf64662bb604fa513cca6a057ddf0ef64" "5e3fc08bcadce4c6785fc49be686a4a82a356db569f55d411258984e952f194a" "7153b82e50b6f7452b4519097f880d968a6eaf6f6ef38cc45a144958e553fbc6" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "bf798e9e8ff00d4bf2512597f36e5a135ce48e477ce88a0764cfb5d8104e8163" "c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "1f35dedbeacbfe9ed72810478836105b5617da67ca27f717a29bbb8087e8a1ba" "eb122e1df607ee9364c2dfb118ae4715a49f1a9e070b9d2eb033f1cefd50a908" "ed8e6f452855fc7338c8be77803666b34745c19c6667197db48952107fa6d983" "78e6be576f4a526d212d5f9a8798e5706990216e9be10174e3f3b015b8662e27" "46b2d7d5ab1ee639f81bde99fcd69eb6b53c09f7e54051a591288650c29135b0" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176" default))
-;;  '(fci-rule-color "#3C3D37")
-;;  '(highlight-changes-colors '("#FD5FF0" "#AE81FF"))
-;;  '(highlight-tail-colors
-;;    '(("#3C3D37" . 0)
-;;      ("#679A01" . 20)
-;;      ("#4BBEAE" . 30)
-;;      ("#1DB4D0" . 50)
-;;      ("#9A8F21" . 60)
-;;      ("#A75B00" . 70)
-;;      ("#F309DF" . 85)
-;;      ("#3C3D37" . 100)))
-;;  '(hl-todo-keyword-faces
-;;    '(("TODO" . "#dc752f")
-;;      ("NEXT" . "#dc752f")
-;;      ("THEM" . "#2aa198")
-;;      ("PROG" . "#268bd2")
-;;      ("OKAY" . "#268bd2")
-;;      ("DONT" . "#d70000")
-;;      ("FAIL" . "#d70000")
-;;      ("DONE" . "#86dc2f")
-;;      ("NOTE" . "#875f00")
-;;      ("KLUDGE" . "#875f00")
-;;      ("HACK" . "#875f00")
-;;      ("TEMP" . "#875f00")
-;;      ("FIXME" . "#dc752f")
-;;      ("XXX+" . "#dc752f")
-;;      ("\\?\\?\\?+" . "#dc752f")))
-;;  '(magit-diff-use-overlays nil)
-;;  '(org-agenda-files '("~/notes/notes.org"))
-;;  '(org-fontify-done-headline nil)
-;;  '(org-fontify-todo-headline nil)
-;;  '(package-selected-packages
-;;    '(mode-line-bell org-bullets olivetti company-flx dracula-theme go-mode dedicated lsp-latex company-reftex company-auctex auctex hl-anything rust-mode rainbow-mode scala-mode modus-operandi-theme modus-themes modus-vivendi-theme ivy-hydra counsel ivy-rich gnu-elpa-keyring-update company))
-;;  '(pdf-view-midnight-colors '("#b2b2b2" . "#262626"))
-;;  '(pos-tip-background-color "#FFFACE")
-;;  '(pos-tip-foreground-color "#272822")
-;;  '(vc-annotate-background nil)
-;;  '(vc-annotate-color-map
-;;    '((20 . "#F92672")
-;;      (40 . "#CF4F1F")
-;;      (60 . "#C26C0F")
-;;      (80 . "#E6DB74")
-;;      (100 . "#AB8C00")
-;;      (120 . "#A18F00")
-;;      (140 . "#989200")
-;;      (160 . "#8E9500")
-;;      (180 . "#A6E22E")
-;;      (200 . "#729A1E")
-;;      (220 . "#609C3C")
-;;      (240 . "#4E9D5B")
-;;      (260 . "#3C9F79")
-;;      (280 . "#A1EFE4")
-;;      (300 . "#299BA6")
-;;      (320 . "#2896B5")
-;;      (340 . "#2790C3")
-;;      (360 . "#66D9EF")))
-;;  '(vc-annotate-very-old-color nil)
-;;  '(weechat-color-list
-;;    '(unspecified "#272822" "#3C3D37" "#F70057" "#F92672" "#86C30D" "#A6E22E" "#BEB244" "#E6DB74" "#40CAE4" "#66D9EF" "#FB35EA" "#FD5FF0" "#74DBCD" "#A1EFE4" "#F8F8F2" "#F8F8F0")))
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(org-block ((t (:inherit fixed-pitch))))
-;;  '(org-code ((t (:inherit (shadow fixed-pitch)))))
-;;  '(org-document-info ((t (:foreground "dark orange"))))
-;;  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-;;  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
-;;  '(org-link ((t (:foreground "royal blue" :underline t))))
-;;  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-;;  '(org-property-value ((t (:inherit fixed-pitch))) t)
-;;  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-;;  '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
-;;  '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
-;;  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-;; (put 'upcase-region 'disabled nil)
-;; (put 'erase-buffer 'disabled nil)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "1436985fac77baf06193993d88fa7d6b358ad7d600c1e52d12e64a2f07f07176" "ed8e6f452855fc7338c8be77803666b34745c19c6667197db48952107fa6d983" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588" "7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9" "d14f3df28603e9517eb8fb7518b662d653b25b26e83bd8e129acea042b774298" default))
  '(org-agenda-files '("~/notes/notes.org"))
  '(package-selected-packages
-   '(mini-modeline color-theme-sanityinc-tomorrow which-key lsp-mode yaml-mode cmake-mode org-remark highlight visual-ascii-mode markdown-mode spacemacs-theme vi-tilde-fringe scala-mode rust-mode rainbow-mode popup org-bullets olivetti mode-line-bell ivy-rich hl-anything helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated dash counsel company-reftex company-flx company-auctex)))
+   '(proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -526,13 +428,10 @@ command, and a paremeterized color"
  ;; If there is more than one, they won't work right.
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-code ((t (:inherit (shadow fixed-pitch)))))
- '(org-document-info ((t (:foreground "dark orange"))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
  '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- '(org-link ((t (:foreground "royal blue" :underline t))))
  '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
  '(org-property-value ((t (:inherit fixed-pitch))) t)
  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
- '(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
+ '(org-table ((t (:inherit fixed-pitch))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
