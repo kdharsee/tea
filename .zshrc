@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="dracula"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -124,6 +124,7 @@ export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/.local/opt/bin
 export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:/opt/homebrew/bin
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
 
 # Machine-specific Environment Variables
@@ -143,71 +144,16 @@ setopt hist_ignore_space
 # Globbing enhancments
 setopt extended_glob
 # zsh autosend SIGCONT after disown
-setopt AUTO_CONTINUE
+setopt autocontinue
 # zsh disable globbing from printing error on nomatch (e.g. /tmp/emacs* -> ERROR)
 setopt +o nomatch
-# disable zsh from adding dirs functionality to cd
-unsetopt autopushd pushdtohome
+setopt noautopushd
+setopt nopushdtohome
+setopt nopushdignoredups
+setopt pushdsilent
 # Bash compatibilty mode
 autoload bashcompinit
 bashcompinit
-
-# Emacs config
-EMACS_GUI=1
-# Start emacs server if it's not started
-function emacs_server_start()
-{
-    server=0
-    running=0
-    server_file=''
-    for file in /tmp/emacs*
-    do 
-        test -O $file/server
-        if [[ $? -eq 0 ]]
-        then
-            server=1
-            server_file=$file/server
-        fi
-    done
-    ps -C 'emacs' uf | grep $USER | grep -q emacs
-    if [[ $? -eq 0 ]]
-    then
-        running=1
-    fi
-
-    if [[ $running -eq 0 ]]
-    then
-        if [[ $server -ne 0 ]]
-        then
-            echo "Deleting emacs server file $server_file" 
-            rm $server_file
-        fi
-        if [[ $EMACS_GUI -eq 0 ]]
-        then
-	          \emacs -nw --daemon
-            alias emacsclient='emacsclient -t'
-        else
-            \emacs --daemon
-            alias emacsclient='emacsclient -n'
-        fi
-        alias emacs="emacsclient"
-    fi
-}
-
-function emacs_server_restart() {
-    killall emacs
-    emacs_server_start
-}
-
-emacs_server_start
-
-if [[ $EMACS_GUI -eq 0 ]]
-then
-    alias emacsclient='emacsclient -t'
-else
-    alias emacsclient='emacsclient -n'
-fi
-alias emacs="emacsclient"
 
 # Define static aliases
 alias gef="\gdb -q -x ~/.gefinit"
@@ -235,19 +181,30 @@ alias qemu-kvm='qemu --enable-kvm'
 alias lp='lp -o fit-to-page -o sides=two-sided-long-edge'
 alias scholar='scholar -c 5'
 alias less='less -R'
-# Print history from the BEGINNING OF TIME
-alias history='history 1'
+alias history='history 10'
 # Alias for xpdf reverse video (dark) mode
 alias xpdf='xpdf -rv'
 # Directory history
-alias dh='dirs -v'
+alias dirs='dirs -v'
 alias xargs='xargs '
+alias dirs='dirs -v'
+alias pud="pushd"
+alias pod="popd"
 # Set up display
 #export DISPLAY=':0.0'
+# Emacs config
+EMACS_GUI=0
+if [[ $EMACS_GUI -eq 0 ]]
+then
+    alias emacsclient='emacsclient -t'
+else
+    alias emacsclient='emacsclient -n'
+fi
+alias emacs="emacsclient"
 # Set default applications
-export ALTERNATE_EDITOR="emacs"
-export EDITOR='emacsclient -t'
-export PAGER='most'
+export ALTERNATE_EDITOR="vi"
+export EDITOR='emacs'
+export PAGER='less'
 # Execute this after each new prompt (BASH)
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 # Execute the PROMPT_COMMAND with zsh tools
@@ -387,5 +344,49 @@ function findmissingcite()
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Start starship promp
-#eval "$(starship init zsh)"
+# Start emacs server if it's not started
+function emacs_server_start()
+{
+    server=0
+    running=0
+    server_file=''
+    for file in /tmp/emacs*
+    do 
+        test -O $file/server
+        if [[ $? -eq 0 ]]
+        then
+            server=1
+            server_file=$file/server
+        fi
+    done
+    FOUND=$(ps -o command -U $USER | grep -c "emacs.*daemon" )
+    if [[ $FOUND -eq 2 ]]
+    then
+        running=1
+    fi
+
+    if [[ $running -eq 0 ]]
+    then
+        if [[ $server -ne 0 ]]
+        then
+            echo "Deleting emacs server file $server_file" 
+            rm $server_file
+        fi
+        if [[ $EMACS_GUI -eq 0 ]]
+        then
+	          \emacs -nw --daemon
+            alias emacsclient='emacsclient -t'
+        else
+            \emacs --daemon
+            alias emacsclient='emacsclient -n'
+        fi
+        alias emacs="emacsclient"
+    fi
+}
+
+function emacs_server_restart() {
+    killall emacs
+    emacs_server_start
+}
+
+emacs_server_start
