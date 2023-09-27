@@ -156,14 +156,13 @@ autoload bashcompinit
 bashcompinit
 
 # Define static aliases
-alias ta="tmux attach -t"
 alias gef="\gdb -q -x ~/.gefinit"
 alias gdb="gdb -q"
 alias tags='find . -type f -regextype egrep -regex ".*\.(c|h|S|cpp|cc)" | xargs etags -a'
 alias clip='xclip -selection c'
 alias sudo='sudo '
 alias mv='mv -i'
-alias ls='ls -h --color'
+alias ls='ls -h --color=auto'
 alias ll='ls -lh'
 alias la='ls -lah'
 #alias grep='grep -H --color=auto'
