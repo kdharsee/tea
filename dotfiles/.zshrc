@@ -156,13 +156,14 @@ autoload bashcompinit
 bashcompinit
 
 # Define static aliases
+alias ta="tmux attach -t"
 alias gef="\gdb -q -x ~/.gefinit"
 alias gdb="gdb -q"
 alias tags='find . -type f -regextype egrep -regex ".*\.(c|h|S|cpp|cc)" | xargs etags -a'
 alias clip='xclip -selection c'
 alias sudo='sudo '
 alias mv='mv -i'
-alias ls='ls -h --color=auto'
+alias ls='ls -h --color'
 alias ll='ls -lh'
 alias la='ls -lah'
 #alias grep='grep -H --color=auto'
@@ -193,16 +194,14 @@ alias pod="popd"
 # Set up display
 #export DISPLAY=':0.0'
 # Emacs config
+export EMACS_SERVER_DIR="~/.emacs.d/servers"
+export EMACS_SERVER_NAME="${USER}_server"
+export EMACS_SERVER_SOCKET="${EMACS_SERVER_DIR}/${EMACS_SERVER_NAME}"
+EMACS_SERVER_CMD="emacs --daemon=${EMACS_SERVER_NAME}"
 EMACS_GUI=0
-if [[ $EMACS_GUI -eq 0 ]]
-then
-    alias emacsclient='emacsclient -t'
-else
-    alias emacsclient='emacsclient -n'
-fi
 alias emacs="emacsclient"
 # Set default applications
-export ALTERNATE_EDITOR="vi"
+#export ALTERNATE_EDITOR="vi"
 export EDITOR='emacs'
 export PAGER='less'
 # Execute this after each new prompt (BASH)
@@ -349,39 +348,30 @@ function emacs_server_start()
 {
     server=0
     running=0
-    server_file=''
-    for file in /tmp/emacs*
-    do 
-        test -O $file/server
-        if [[ $? -eq 0 ]]
-        then
-            server=1
-            server_file=$file/server
-        fi
-    done
-    FOUND=$(ps -o command -U $USER | grep -c "emacs.*daemon" )
+    FOUND=$(ps -o command -U $USER | grep -c $EMACS_SERVER_CMD )
     if [[ $FOUND -eq 2 ]]
     then
         running=1
     fi
-
-    if [[ $running -eq 0 ]]
+    
+    if [[ $running -eq 0 ]] # If the server is not running
     then
-        if [[ $server -ne 0 ]]
-        then
-            echo "Deleting emacs server file $server_file" 
-            rm $server_file
-        fi
         if [[ $EMACS_GUI -eq 0 ]]
         then
-	          \emacs -nw --daemon
-            alias emacsclient='emacsclient -t'
+	          eval "\\${EMACS_SERVER_CMD} -nw"
+            alias emacsclient="emacsclient -t -s ${EMACS_SERVER_SOCKET}"
         else
-            \emacs --daemon
-            alias emacsclient='emacsclient -n'
+            eval "\\${EMACS_SERVER_CMD}" 
+           alias emacsclient="emacsclient -n -s ${EMACS_SERVER_SOCKET}"
         fi
-        alias emacs="emacsclient"
     fi
+    if [[ $EMACS_GUI -eq 0 ]]
+    then
+        alias emacsclient="emacsclient -t -s ${EMACS_SERVER_SOCKET}"
+    else
+        alias emacsclient="emacsclient -n -s ${EMACS_SERVER_SOCKET}"
+    fi
+    alias emacs="emacsclient"
 }
 
 function emacs_server_restart() {
