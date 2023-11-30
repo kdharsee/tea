@@ -21,30 +21,41 @@ There are two things you can do about this warning:
 ;;   (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; Emacs Server config
+(setq server-socket-dir "~/.emacs.d/servers/")
+
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name)))
+
 ;; Remove audible bell and set visible bell flashing mode line
-(require 'mode-line-bell)
-(mode-line-bell-mode 1)
+;;(require 'mode-line-bell)
+;;(mode-line-bell-mode 1)
 ;; Cursor style
 (setq-default cursor-type '(bar . 3))
+;; Scroll amount when moving off page
+;(setq scroll-conservatively 0)
+;(setq scroll-step 10)
 ;; Prevent clipboard contamination
 (setq select-enable-clipboard nil)
 ;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
 (global-prettify-symbols-mode +1)
 ;; Ivy-mode stuff
-(require 'ivy)
-(ivy-mode 1)
-(require 'ivy-rich)
-(ivy-rich-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
- (setq ivy-re-builders-alist
-       '((ivy-switch-buffer . ivy--regex-plus)
-         (t . ivy--regex-fuzzy)))
- (setq ivy-re-builders-alist
-       '((t . ivy--regex-fuzzy)))
- (setq ivy-initial-inputs-alist nil)
+;;(require 'ivy)
+;;(ivy-mode 1)
+;;(require 'ivy-rich)
+;;(ivy-rich-mode 1)
+;; (setq ivy-use-virtual-buffers t)
+;; (setq enable-recursive-minibuffers t)
+;; (setq ivy-re-builders-alist
+;;       '((ivy-switch-buffer . ivy--regex-plus)
+;;         (t . ivy--regex-fuzzy)))
+;; (setq ivy-re-builders-alist
+;;       '((t . ivy--regex-fuzzy)))
+;; (setq ivy-initial-inputs-alist nil)
 ;; Highlight the entire line the cursor is on
-(global-hl-line-mode +1)
+;; (global-hl-line-mode +1)
 (with-eval-after-load 'company
   (company-flx-mode +1))
 ;; Mouse features in a TTY emulator
@@ -52,11 +63,11 @@ There are two things you can do about this warning:
 ;; Disable gpm mousing that breaks scroling
 ;;(setq gpm-mouse-mode nil)
 ;;(setq gpm-mouse-mode t)
-(require 'which-key)
-(setq which-key-idle-delay 0)
-(setq which-key-idle-secondary-delay 0)
-(setq which-key-popup-type 'side-window)
-(which-key-mode)
+;;(require 'which-key)
+;; (setq which-key-idle-delay 0)
+;; (setq which-key-idle-secondary-delay 0)
+;; (setq which-key-popup-type 'side-window)
+;; (which-key-mode)
 ;; DISABLE toolbar
 (tool-bar-mode -1)
 ;; Disable menubar
@@ -104,7 +115,7 @@ command, and a paremeterized color"
   (insert (format
            "*** %s"
            (shell-command-to-string
-            "date --iso-8601='seconds' | tr -d '\n' ")
+            "date -I'seconds' | tr -d '\n' ")
            ))
   )
 
@@ -123,15 +134,15 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Enable Ido mode errwhere
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-everywhere t)
-;; (setq ido-use-filename-at-point 'guess)
-;; (ido-mode 1)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(setq ido-use-filename-at-point 'guess)
+(ido-mode 1)
 
-;; (defun ido-define-keys ()
-;;   (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-;;   (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
-;; (add-hook 'ido-setup-hook 'ido-define-keys)
+(defun ido-define-keys ()
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
+(add-hook 'ido-setup-hook 'ido-define-keys)
 
 ;; Indent guide
 ;; (require 'indent-guide)
@@ -168,27 +179,7 @@ command, and a paremeterized color"
 ;; Treat clipboard input as UTF-8 string first; compund text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; SET THEME
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (advice-add #'x-apply-session-resources :override #'ignore)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-(load-theme 'dracula t)
-;;(load-theme 'sanityinc-tomorrow-night t)
-;; Set background color
-;;(add-to-list 'default-frame-alist '(background-color . "color-236"))
-;; Don't display a background
-;; (defun on-after-init ()
-;;   (unless (display-graphic-p (selected-frame))
-;;     (set-face-background 'default "unspecified-bg" (selected-frame))))
-;; (add-hook 'window-setup-hook 'on-after-init)
-;; (defun on-frame-open (frame)
-;;   (if (not (display-graphic-p frame))
-;;     (set-face-background 'default "unspecified-bg" frame)))
-;; (on-frame-open (selected-frame))
-;; (add-hook 'after-make-frame-functions 'on-frame-open)
-
-(counsel-mode 1); Counsel mode everywhere
+;;(counsel-mode 1); Counsel mode everywhere
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
 (show-paren-mode 1); Matches parentheses and such in every mode
@@ -320,12 +311,13 @@ command, and a paremeterized color"
 (setq org-hide-emphasis-markers t)
 (setq org-fontify-whole-heading-line t)
 (setq org-tags-column 0)
-(require 'org-bullets)
+;(require 'org-bullets)
 (defun my-org-config ()
-  (org-bullets-mode)
+  ;;(org-bullets-mode)
   (variable-pitch-mode 1)
   (set-face-attribute)
-  (setq fill-column 100000) 
+  (setq fill-column 100000)
+  (setq org-src-fontify-natively t)  
 )
 (add-hook 'org-mode-hook 'my-org-config)
 
@@ -354,7 +346,7 @@ command, and a paremeterized color"
   (c-set-offset 'arglist-cont '0)
   (c-set-offset 'case-label '+))
 (add-hook 'c-mode-hook 'pretty-c)
-
+(add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Verilog-Mode Stuff
@@ -370,8 +362,8 @@ command, and a paremeterized color"
 (add-hook 'bibtex-mode-hook 'bibtex-mode-tab)
 
 ;; Company mode for all buffers
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+;; (require 'company)
+;; (add-hook 'after-init-hook 'global-company-mode)
 
 ;; (require 'mini-modeline)
 ;; (mini-modeline-mode t)
@@ -381,7 +373,7 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-unset-key (kbd "C-x C-p"))
 (global-unset-key (kbd "C-x C-n"))
-(global-set-key (kbd "M-x") 'counsel-M-x)
+;;(global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "M-r") 'replace-regexp)
@@ -397,7 +389,7 @@ command, and a paremeterized color"
 ;;(global-set-key (kbd "M-j") 'point-to-register)
 ;;(global-set-key (kbd "C-j") 'jump-to-register)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x k") 'kill-current-buffer)
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x /") 'comment-line)
 (global-set-key (kbd "C-x f") 'dedicated-mode)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -420,7 +412,7 @@ command, and a paremeterized color"
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/notes/notes.org"))
  '(package-selected-packages
-   '(proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
+   '(markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
