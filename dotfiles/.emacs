@@ -46,11 +46,10 @@ There are two things you can do about this warning:
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
 (setq ivy-re-builders-alist
-      '((ivy-switch-buffer . ivy--regex-plus)
-        (t . ivy--regex-fuzzy)))
-(setq ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy)))
-;; ;(setq ivy-initial-inputs-alist nil)
+      '((t . ivy--regex-fuzzy)
+        (ivy-switch-buffer . ivy--regex-fuzzy)
+        ))
+;;(setq ivy-initial-inputs-alist nil)
 ;; ;; Highlight the entire line the cursor is on
 ;; ;; (global-hl-line-mode +1)
 ;; (with-eval-after-load 'company
@@ -83,7 +82,7 @@ There are two things you can do about this warning:
                    (cons #'display-buffer-no-window nil)))
 
 ;; Change word delimiters, Let _ and : constitute words
-;;(modify-syntax-entry ?_ "w")
+(modify-syntax-entry ?_ "w")
 ;;(modify-syntax-entry ?: "w")
 
 ;; Entry keyboard macro
@@ -266,7 +265,7 @@ command, and a paremeterized color"
  ;'(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
  )
 
-
+(setq org-pretty-entities t)
 (setq org-hide-emphasis-markers t)
 (setq org-fontify-whole-heading-line t)
 (setq org-tags-column 0)
@@ -274,8 +273,8 @@ command, and a paremeterized color"
 (defun my-org-config ()
   ;;(org-bullets-mode)
   (variable-pitch-mode 1)
-  (set-face-attribute)
-  (setq fill-column 100000) 
+  (setq fill-column 100000)
+  (local-set-key (kbd "C-c s") 'org-insert-structure-template)
 )
 (add-hook 'org-mode-hook 'my-org-config)
 
@@ -299,8 +298,18 @@ command, and a paremeterized color"
 (defun pretty-c ()
   (c-set-offset 'arglist-intro '+)
   (c-set-offset 'arglist-cont '0)
-  (c-set-offset 'case-label '+))
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'inamespace '0)
+   )
 (add-hook 'c-mode-hook 'pretty-c)
+(add-hook 'c++-mode-hook 'pretty-c)
+
+(defconst my-cc-style
+  '("cc-mode"
+    (c-offsets-alist . ((innamespace . [0])))))
+
+(c-add-style "my-cc-mode" my-cc-style)
+
 (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -323,38 +332,58 @@ command, and a paremeterized color"
 ;; (require 'mini-modeline)
 ;; (mini-modeline-mode t)
 
+;; Hideshow (hs-) Mode
+(defun toggle-fold ()
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (hs-toggle-hiding)))
+(defun hs-config ()
+  (local-set-key (kbd "C-c @ t") 'toggle-fold)
+  (local-set-key (kbd "C-c @ s") 'hs-show-block)
+  (local-set-key (kbd "C-c 1") 'hs-show-block)
+  (local-set-key (kbd "C-c @ h") 'hs-hide-block)
+  (local-set-key (kbd "C-c 2") 'hs-hide-block)
+  )
+(add-hook 'hs-minor-mode-hook 'hs-config)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+  
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; STATIC KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (global-unset-key (kbd "C-x C-p"))
 (global-unset-key (kbd "C-x C-n"))
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "M-i") 'ido-goto-symbol)
+;; Buffer/Frame/Window Management
+(global-set-key (kbd "C-]") 'other-frame)
 (global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "M-r") 'replace-regexp)
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'rgrep)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
 (global-set-key (kbd "C-x [") 'shrink-window-horizontally)
 (global-set-key (kbd "C-x ]") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-o") 'delete-other-windows)
 (global-set-key (kbd "C-M-o") 'delete-window)
-;;(global-set-key (kbd "M-j") 'point-to-register)
-;;(global-set-key (kbd "C-j") 'jump-to-register)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
-(global-set-key (kbd "C-x /") 'comment-line)
 (global-set-key (kbd "C-x f") 'dedicated-mode)
 (global-set-key (kbd "<f5>") 'revert-buffer)
-(global-set-key (kbd "<f5>") 'revert-buffer)
 (global-set-key (kbd "S-<f5>") 'revert-buffer-quick)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+;; Regex/search
+(global-set-key (kbd "M-r") 'replace-regexp)
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'rgrep)
+;; Edit Macros
+(global-set-key (kbd "C-x /") 'comment-line)
 (global-set-key (kbd "C-x C-\\") 'goto-last-change)
-(global-set-key (kbd "C-]") 'other-frame)
+;; Clipboard
 (global-set-key (kbd "C-S-v") 'clipboard-yank)
 (global-set-key (kbd "C-S-v") 'clipboard-yank)
 (global-set-key (kbd "C-S-c") 'clipboard-kill-ring-save)
+;; Org
+(global-set-key (kbd "C-c M-l") 'org-store-link)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -366,8 +395,9 @@ command, and a paremeterized color"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/notes/notes.org"))
+ '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
+   '(clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
