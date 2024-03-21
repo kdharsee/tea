@@ -71,6 +71,8 @@ ZSH_THEME="robbyrussell"
 plugins=(
     git
     zsh-syntax-highlighting
+    fzf
+    fzf-zsh-plugin
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -203,7 +205,8 @@ alias emacs="emacsclient"
 # Set default applications
 #export ALTERNATE_EDITOR="vi"
 export EDITOR='emacs'
-export PAGER='less'
+#export PAGER='less'
+export PAGER='most'
 # Execute this after each new prompt (BASH)
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 # Execute the PROMPT_COMMAND with zsh tools

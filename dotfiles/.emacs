@@ -347,8 +347,11 @@ command, and a paremeterized color"
   )
 (add-hook 'hs-minor-mode-hook 'hs-config)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
-  
 
+;; Define function to go to other window backwards
+(defun myprevious-window ()
+    (interactive)
+    (other-window -1))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; STATIC KEYBINDINGS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -357,12 +360,11 @@ command, and a paremeterized color"
 ;; Buffer/Frame/Window Management
 (global-set-key (kbd "C-]") 'other-frame)
 (global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-o") 'myprevious-window)
 (global-set-key (kbd "C-x {") 'shrink-window)
 (global-set-key (kbd "C-x }") 'enlarge-window)
 (global-set-key (kbd "C-x [") 'shrink-window-horizontally)
 (global-set-key (kbd "C-x ]") 'enlarge-window-horizontally)
-(global-set-key (kbd "M-o") 'delete-other-windows)
-(global-set-key (kbd "C-M-o") 'delete-window)
 (global-set-key (kbd "C-x k") 'kill-this-buffer)
 (global-set-key (kbd "C-x f") 'dedicated-mode)
 (global-set-key (kbd "<f5>") 'revert-buffer)
@@ -412,3 +414,5 @@ command, and a paremeterized color"
  '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
  '(org-table ((t (:inherit fixed-pitch))))
  '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
