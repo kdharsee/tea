@@ -26,6 +26,17 @@ There are two things you can do about this warning:
   (interactive)
   (message (buffer-file-name)))
 
+;; Auto revert tail for log files
+(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-mode))
+
+;; LLVM and MLIR modes
+;; (cond ((locate-library "llvm-mode")
+;;        (require 'llvm-mode)))
+;; (cond ((locate-library "mlir-mode"))
+;;        (require 'mlir-mode)
+;;       ;; Associate .mlir files with mlir-mode
+;;       (add-to-list 'auto-mode-alist '("\\.mlir\\'" . mlir-mode)))
+
 ;; Remove audible bell and set visible bell flashing mode line
 ;;(require 'mode-line-bell)
 ;;(mode-line-bell-mode 1)
@@ -104,8 +115,8 @@ command, and a paremeterized color"
 ;;   ;; what to use when checking on-save. "check" is default, I prefer clippy
 ;;   (lsp-rust-analyzer-cargo-watch-command "clippy")
 ;;   (lsp-eldoc-render-all t)
-;;   (lsp-idle-delay 0.6)
-;;   (lsp-rust-analyzer-server-display-inlay-hints t)
+;;   (lsp-idle-delay 0.6);
+;   (lsp-rust-analyzer-server-display-inlay-hints t)
 ;;   :config
 ;;   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
@@ -399,7 +410,7 @@ command, and a paremeterized color"
  '(org-agenda-files '("~/notes/notes.org"))
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode buffer-move autothemer)))
+   '(magit hide-mode-line goto-last-change ansible fontawesome nhexl-mode dockerfile-mode rotate org-link-beautify clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode autothemer)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

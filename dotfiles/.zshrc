@@ -129,9 +129,9 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/opt/homebrew/bin
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/.local/lib:$HOME/lib64
 
-# Machine-specific Environment Variables
-export YOSYSHQ_LICENSE=/home/kdharsee/Research/decaf/yosys_official_builds/tabbycad-rochester-220620.lic
-
+export PYENV_ROOT="$HOME/.pyenv"
+[[  -d $PYENV_ROOT && -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # Fetch opam environment vars
 test -r ${HOME}/.opam/opam-init/init.zsh && . ${HOME}/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
@@ -205,15 +205,19 @@ alias emacs="emacsclient"
 # Set default applications
 #export ALTERNATE_EDITOR="vi"
 export EDITOR='emacs'
-#export PAGER='less'
-export PAGER='most'
+export PAGER='less'
+#export PAGER='most'
 # Execute this after each new prompt (BASH)
 export PROMPT_COMMAND="pwd > /tmp/whereami"
 # Execute the PROMPT_COMMAND with zsh tools
 whereami() { eval $PROMPT_COMMAND }
 # Register hook to execute on changed directory
 #add-zsh-hook chpwd whereami
-
+# FZF config
+export FZF_DEFAULT_OPTS='--height 30% --layout reverse'
+# Proxy
+export HTTP_PROXY='http://proxyvip.draper.com:3128'
+export HTTPS_PROXY='http://proxyvip.draper.com:3128'
 # Export terminal for all the colors
 # export TERM=xterm-256color
 
