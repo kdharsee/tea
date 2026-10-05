@@ -13,104 +13,117 @@ which is unsafe because it allows man-in-the-middle attacks.
 There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t))
-;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t))
 (package-initialize)
 
-;; Undo history
-(cond ((locate-library "undo-fu-session")
-       (require 'undo-fu-session)
-       (global-undo-fu-session-mode 1)
-       )
-      )
-(cond ((locate-library "vundo")
-       (require 'vundo)
-       (setq vundo-compact-display t)
-       )
-      )
+;; Global binds
+(global-unset-key (kbd "C-x C-p"))
+(global-unset-key (kbd "C-x C-n"))
+(global-set-key (kbd "C-]") 'other-frame)
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "M-o") 'myprevious-window)
+(global-set-key (kbd "C-x {") 'shrink-window)
+(global-set-key (kbd "C-x }") 'enlarge-window)
+(global-set-key (kbd "C-x [") 'shrink-window-horizontally)
+(global-set-key (kbd "C-x ]") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
+;;(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "M-r") 'replace-regexp)
+;;(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+;;(global-set-key (kbd "C-r") 'isearch-backward-regexp)
+;;(global-set-key (kbd "C-M-s") 'rgrep)
+(global-set-key (kbd "C-x /") 'comment-line)
+(global-set-key (kbd "C-c M-l") 'org-store-link)
 
-
-;; Theme
-;;(customize-set-variable 'timu-macos-flavour "light")
-;;(load-theme 'timu-macos t)
+;; Appearance
 (set-face-background 'vertical-border  'unspecified)
+(global-prettify-symbols-mode +1)
+(global-visual-line-mode 1); Proper line wrapping
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(add-hook 'prog-mode-hook 'line-number-mode)
+(setq font-use-system-font t)
+(setq frame-background-mode 'dark)
+
+;; Parens
+(use-package emacs
+  :custom
+  (show-paren-mode 1)
+  (setq show-paren-style 'parenthesis))
+(setq blink-matching-paren t)
 
 ;; Emacs Server config
 (setq server-socket-dir "~/.emacs.d/servers/")
 
-(defun show-file-name ()
-  "Show the full path file name in the minibuffer."
-  (interactive)
-  (message (buffer-file-name)))
-
-;; Auto revert tail for log files
-(add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-mode))
-
-;; LLVM and MLIR modes
+;; Custom modes
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (cond ((locate-library "llvm-mode") (require 'llvm-mode)))
 (cond ((locate-library "tablegen-mode") (require 'tablegen-mode)))
 (cond ((locate-library "mlir-mode") (require 'mlir-mode)))
 
-;; Remove audible bell and set visible bell flashing mode line
-;;(require 'mode-line-bell)
-;;(mode-line-bell-mode 1)
-;; Cursor style
-(setq-default cursor-type '(bar . 3))
-;; Scroll amount when moving off page
-;(setq scroll-conservatively 0)
-;(setq scroll-step 10)
-;; Prevent clipboard contamination
-(setq select-enable-clipboard nil)
-;; Global prettify symbols: \\forall -> \forall (upside-down A) in LaTeX
-(global-prettify-symbols-mode +1)
-;; Ivy-mode stuff
-(require 'ivy)
-(ivy-mode 1)
-(require 'ivy-rich)
-(ivy-rich-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(setq ivy-re-builders-alist
-      '((t . ivy--regex-fuzzy)
-        (ivy-switch-buffer . ivy--regex-fuzzy)
-        ))
-;;(setq ivy-initial-inputs-alist nil)
-;; ;; Highlight the entire line the cursor is on
-;; ;; (global-hl-line-mode +1)
-;; (with-eval-after-load 'company
-;;   (company-flx-mode +1))
-;; ;; Mouse features in a TTY emulator
-;; (setq xterm-mouse-mode t)
-;; ;; Disable gpm mousing that breaks scroling
-;; ;;(setq gpm-mouse-mode nil)
-;; ;;(setq gpm-mouse-mode t)
-(require 'which-key)
-(setq which-key-idle-delay 0)
-(setq which-key-idle-secondary-delay 0)
-(setq which-key-popup-type 'side-window)
-(which-key-mode)
-;; DISABLE toolbar
-(tool-bar-mode -1)
-;; Disable menubar
-(menu-bar-mode -1)
-;; Disable scroll bar
-;;(setq-default scroll-bar-mode nil)
-;; Borderless
-;;(setq default-frame-alist '((undecorated . t)))
+;; Custom Commands
+(defun show-file-name ()
+  "Show the full path file name in the minibuffer."
+  (interactive)
+  (message (buffer-file-name)))
 
-;; System font
-(setq font-use-system-font t)
+;; Consult
+(use-package consult
+  :ensure t
+  :demand t
+  :bind (("C-x m" . consult-kmacro)
+         ("M-#" . consult-register-load)
+         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("C-M-#" . consult-register)
+         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
+         ("M-g g" . consult-goto-line)             ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
+         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+         ("M-s d" . consult-fd)                  ;; Alternative: consult-find
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("C-M-s" . consult-ripgrep)
+         ("C-s" . consult-line))
+  :init)
 
-;; Disable async-shell-command from spawning a buffer
-(add-to-list 'display-buffer-alist
-             (cons "\\*Async Shell Command\\*.*"
-                   (cons #'display-buffer-no-window nil)))
+(use-package embark
+  :ensure t
+  :bind (("C-j" . embark-act)
+         ("C-M-j" . embark-dwim)
+         ("C-h B" . embark-bindings)
+         :map embark-general-map
+         ("Z" . consult-register-store))
+  :init
+  (setq prefix-help-command #'embark-prefix-help-command))
 
-;; Change word delimiters, Let _ and : constitute words
-(modify-syntax-entry ?_ "w")
-;;(modify-syntax-entry ?: "w")
+(use-package embark-consult
+  :ensure t
+  :after consult
+  :after embark)
+
+(use-package marginalia
+  :ensure t
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+;; vertico
+(use-package vertico
+  :ensure t
+  :init
+  (vertico-mode)
+  (setq vertico-cycle t))
+(use-package vertico-quick
+  :after vertico)
+
+(use-package orderless
+  :ensure t
+  :custom (completion-styles '(orderless)))
 
 ;; Entry keyboard macro
 (defun entry-org ()
@@ -124,11 +137,10 @@ command, and a paremeterized color"
            ))
   )
 
-(add-hook 'prog-mode-hook 'line-number-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Auto Save backup directory
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
 (setq auto-save-file-name-transforms
@@ -144,130 +156,22 @@ command, and a paremeterized color"
 ;; Treat clipboard input as UTF-8 string first; compund text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
-
-(counsel-mode 1); Counsel mode everywhere
-(global-visual-line-mode 1); Proper line wrapping
-;; (global-hl-line-mode 1); Highlight current row
-(show-paren-mode 1); Matches parentheses and such in every mode
-(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
-(setq inhibit-splash-screen t); Disable splash screen
-(setq frame-background-mode 'dark)
-;; Disable blinking cursor
-(setq visible-cursor nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Proof General Package / Coq things
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Open .v files with Proof General's Coq mode
-;;(load "~/.emacs.d/lisp/PG/generic/proof-site")
-;; Load company-coq when opening Coq files
-(add-hook 'coq-mode-hook #'company-coq-mode)
-;; Pretty symbols with company-coq
-(setq company-coq-features/prettify-symbols-in-terminal t)
-;; Auto-complete externally defined symbols
-(setq company-coq-live-on-the-edge t)
-;; I appreciate the effort of writing a splash-screen, but the angry
-;; general on the gif scares me.
-(setq proof-splash-seen t)
-;;; Hybrid mode is by far the best.
-(setq proof-three-window-mode-policy 'hybrid)
-
-;;; I don't know who wants to evaluate comments
-;;; one-by-one, but I don't.
-(setq proof-script-fly-past-comments t)
-
-(with-eval-after-load 'coq
-  ;; The most common command by far. Having a 3(!)
-  ;; keys long sequence for this command is just a
-  ;; crime.
-  (define-key coq-mode-map "\C-c\M-n"
-    'proof-assert-until-point-interactive)
-  (defun insert_arrow () (interactive) (insert "->"))
-  (define-key coq-mode-map (kbd "M--") #'insert_arrow)
-  )
-
-;; GDB Stuff
+;; GDB mode
 (add-to-list 'auto-mode-alist '("\\.gdb\\'" . gdb-script-mode))
+(setq gdb-many-windows t)
+(setq gdb-default-window-configuration-file "gdb_window_config")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; LATEX STUFF
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Spell check when entering latex-mode
-;;(add-hook 'tex-mode-hook #'flyspell-mode)
-;(add-hook 'tex-mode-hook (lambda () (set-fill-column 70)))
-(add-hook 'tex-mode-hook (lambda () (column-number-mode 1)))
-(add-hook 'tex-mode-hook (lambda () (flyspell-buffer)))
-(add-hook 'text-mode-hook (lambda () (flyspell-mode 1)))
-;;(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
-;;(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-;(require 'olivetti)
-;(add-hook 'LaTeX-mode-hook 'olivetti-mode)
-(add-hook 'LaTeX-mode-hook (lambda () (set-fill-column 100000)))
-(add-hook 'LaTeX-mode-hook (setq reftex-toc-include-file-boundaries t))
-(add-hook 'LaTeX-mode-hook (setq reftex-toc-follow-mode 'nil))
-;;(add-hook 'LaTeX-mode-hook (lambda () (flyspell-buffer)))
-;; Needed for latex many packages
-(setq TeX-parse-self t) ; Enable parse on load.
-(setq TeX-auto-save t) ; Enable parse on save.
-;; Use xetex (instead of pdflatex) 
-;;(setq-default TeX-engine 'xetex)
-;; Ask for master file when using \input
-(setq-default TeX-master nil)
-;; Set up reftex
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
-(setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-;; (defun reftex-format-cref (label def-fmt reftype)
-;;   (format "\\cref{%s}" label))
-;;(setq reftex-format-ref-function 'reftex-format-cref)
-;; Set default tex compiler
-;(setq-default TeX-engine 'xetex)
-;; Produce PDF by default 
-;(setq-default TeX-PDF-mode t)
-;; enable fold-mode by default in tex-files
-;; (add-hook 'TeX-mode-hook (lambda ()
-;;                            (progn
-;;                              (TeX-fold-mode 1)
-;;                              ;; Enable folding of cref
-;;                              (add-to-list
-;;                              'TeX-fold-macro-spec-list
-;;                              '("[cr]" ("cref" "Cref")))
-;;                              )))
-;; Add lstlisting to the set of verbatim environments
-(add-hook 'LaTeX-mode-hook (lambda () 
-                             (add-to-list 'LaTeX-verbatim-environments "lstlisting")))
-(setq reftex-bibliography-commands '("bibliography" "nobibliography" "addbibresource"))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Org Mode config
-;; (font-lock-add-keywords 'org-mode
-;;                         '(("^ *\\([-]\\) "
-;;                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-;; (setq org-image-actual-width nil)
-;; (setq org-pretty-entities t)
-;; (setq org-hide-emphasis-markers t)
-;; (setq org-fontify-whole-heading-line t)
-;; (setq org-tags-column 0)
+;; Org mode
 (defun my-org-config ()
   (local-set-key (kbd "C-c s") 'org-insert-structure-template)
 )
 (add-hook 'org-mode-hook 'my-org-config)
 (add-hook 'org-mode-hook 'org-modern-mode)
 
-;; GDB mode window config/layout file
-(setq gdb-many-windows t)
-(setq gdb-default-window-configuration-file "gdb_window_config")
-
-
 (normal-erase-is-backspace-mode 0)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Fill Column
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;(setq-default fill-column 75)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; C-Mode prettyness
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; C mode
 (setq-default c-basic-offset 2
               tab-width 2
               indent-tabs-mode nil)
@@ -287,26 +191,6 @@ command, and a paremeterized color"
 (c-add-style "my-cc-mode" my-cc-style)
 
 (add-to-list 'auto-mode-alist '("\\.tpp\\'" . c++-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Verilog-Mode Stuff
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(add-hook 'verilog-mode-hook 
-          (lambda () (local-set-key (kbd "M-*") 'pop-tag-mark)))
-
-;; Set TAB to indent in bibtex-mode
-(defun bibtex-mode-tab ()
-  (local-set-key (kbd "TAB") 'indent-for-tab-command)
-  (local-set-key (kbd "M-q") 'fill-individual-paragraphs)
-  )
-(add-hook 'bibtex-mode-hook 'bibtex-mode-tab)
-
-;; Company mode for all buffers
-;;(require 'company)
-;;(add-hook 'after-init-hook 'global-company-mode)
-
-;; (require 'mini-modeline)
-;; (mini-modeline-mode t)
 
 ;; Hideshow (hs-) Mode
 (defun toggle-fold ()
@@ -328,62 +212,6 @@ command, and a paremeterized color"
 (defun myprevious-window ()
     (interactive)
     (other-window -1))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; STATIC KEYBINDINGS
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(global-unset-key (kbd "C-x C-p"))
-(global-unset-key (kbd "C-x C-n"))
-;; Buffer/Frame/Window Management
-(global-set-key (kbd "C-]") 'other-frame)
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "M-o") 'myprevious-window)
-(global-set-key (kbd "C-x {") 'shrink-window)
-(global-set-key (kbd "C-x }") 'enlarge-window)
-(global-set-key (kbd "C-x [") 'shrink-window-horizontally)
-(global-set-key (kbd "C-x ]") 'enlarge-window-horizontally)
-(global-set-key (kbd "C-x k") 'kill-this-buffer)
-(global-set-key (kbd "C-x f") 'dedicated-mode)
-(global-set-key (kbd "<f5>") 'revert-buffer)
-(global-set-key (kbd "S-<f5>") 'revert-buffer-quick)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-;; Regex/search
-(global-set-key (kbd "M-r") 'replace-regexp)
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'rgrep)
-;; Edit Macros
-(global-set-key (kbd "C-x /") 'comment-line)
-(global-set-key (kbd "C-x C-\\") 'goto-last-change)
-;; Clipboard
-(global-set-key (kbd "C-S-v") 'clipboard-yank)
-(global-set-key (kbd "C-S-v") 'clipboard-yank)
-(global-set-key (kbd "C-S-c") 'clipboard-kill-ring-save)
-;; Org
-(global-set-key (kbd "C-c M-l") 'org-store-link)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; END
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("d8011e6c2919f4edfbc233664d9e404e2a2b89483bc8b75011b379c41a82efdf" default))
- '(ispell-dictionary nil)
- '(org-export-backends '(ascii html icalendar latex md odt))
- '(package-selected-packages
-   '(vundo undo-fu-session timu-macos-theme leuven-theme racket-mode magit hide-mode-line goto-last-change ansible fontawesome nhexl-mode dockerfile-mode rotate org-link-beautify clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode autothemer)))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
