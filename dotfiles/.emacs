@@ -18,6 +18,24 @@ There are two things you can do about this warning:
 ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t))
 (package-initialize)
 
+;; Undo history
+(cond ((locate-library "undo-fu-session")
+       (require 'undo-fu-session)
+       (global-undo-fu-session-mode 1)
+       )
+      )
+(cond ((locate-library "vundo")
+       (require 'vundo)
+       (setq vundo-compact-display t)
+       )
+      )
+
+
+;; Theme
+;;(customize-set-variable 'timu-macos-flavour "light")
+;;(load-theme 'timu-macos t)
+(set-face-background 'vertical-border  'unspecified)
+
 ;; Emacs Server config
 (setq server-socket-dir "~/.emacs.d/servers/")
 
@@ -30,12 +48,10 @@ There are two things you can do about this warning:
 (add-to-list 'auto-mode-alist '("\\.log\\'" . auto-revert-mode))
 
 ;; LLVM and MLIR modes
-;; (cond ((locate-library "llvm-mode")
-;;        (require 'llvm-mode)))
-;; (cond ((locate-library "mlir-mode"))
-;;        (require 'mlir-mode)
-;;       ;; Associate .mlir files with mlir-mode
-;;       (add-to-list 'auto-mode-alist '("\\.mlir\\'" . mlir-mode)))
+(add-to-list 'load-path "~/.emacs.d/lisp")
+(cond ((locate-library "llvm-mode") (require 'llvm-mode)))
+(cond ((locate-library "tablegen-mode") (require 'tablegen-mode)))
+(cond ((locate-library "mlir-mode") (require 'mlir-mode)))
 
 ;; Remove audible bell and set visible bell flashing mode line
 ;;(require 'mode-line-bell)
@@ -82,7 +98,7 @@ There are two things you can do about this warning:
 ;; Disable scroll bar
 ;;(setq-default scroll-bar-mode nil)
 ;; Borderless
-(setq default-frame-alist '((undecorated . t)))
+;;(setq default-frame-alist '((undecorated . t)))
 
 ;; System font
 (setq font-use-system-font t)
@@ -108,37 +124,6 @@ command, and a paremeterized color"
            ))
   )
 
-;; (use-package lsp-mode
-;;   :ensure
-;;   :commands lsp
-;;   :custom
-;;   ;; what to use when checking on-save. "check" is default, I prefer clippy
-;;   (lsp-rust-analyzer-cargo-watch-command "clippy")
-;;   (lsp-eldoc-render-all t)
-;;   (lsp-idle-delay 0.6);
-;   (lsp-rust-analyzer-server-display-inlay-hints t)
-;;   :config
-;;   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Enable Ido mode errwhere
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (setq ido-enable-flex-matching t)
-;; (setq ido-everywhere t)
-;; (setq ido-use-filename-at-point 'guess)
-;; (ido-mode 1)
-
-;; (defun ido-define-keys ()
-;;   (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
-;;   (define-key ido-completion-map (kbd "C-p") 'ido-prev-match))
-;; (add-hook 'ido-setup-hook 'ido-define-keys)
-
-;; Indent guide
-;; (require 'indent-guide)
-;; (add-hook 'prog-mode-hook 'indent-guide-mode)
-;; (add-hook 'ess-mode-hook 'indent-guide-mode)
-;; (add-hook 'markdown-mode-hook 'indent-guide-mode)
-
 (add-hook 'prog-mode-hook 'line-number-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -159,13 +144,13 @@ command, and a paremeterized color"
 ;; Treat clipboard input as UTF-8 string first; compund text next, etc.
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
+
 (counsel-mode 1); Counsel mode everywhere
 (global-visual-line-mode 1); Proper line wrapping
 ;; (global-hl-line-mode 1); Highlight current row
 (show-paren-mode 1); Matches parentheses and such in every mode
-;;(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
+(set-fringe-mode '(0 . 0)); Disable fringe because I use visual-line-mode
 (setq inhibit-splash-screen t); Disable splash screen
-;;(setq visible-bell nil); Flashes on error
 (setq frame-background-mode 'dark)
 ;; Disable blinking cursor
 (setq visible-cursor nil)
@@ -255,39 +240,19 @@ command, and a paremeterized color"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Org Mode config
-(font-lock-add-keywords 'org-mode
-                        '(("^ *\\([-]\\) "
-                           (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-(setq org-image-actual-width nil)
-(custom-theme-set-faces
- 'user
- '(org-block ((t (:inherit fixed-pitch))))
- '(org-table ((t (:inherit fixed-pitch))))
- '(org-code ((t (:inherit (shadow fixed-pitch)))))
- '(org-verbatim ((t (:inherit (shadow fixed-pitch)))))
- ;'(org-document-info ((t (:foreground "dark orange"))))
- '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
- '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- ;'(org-link ((t (:foreground "royal blue" :underline t))))
- '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-property-value ((t (:inherit fixed-pitch))) t)
- '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- ;'(org-table ((t (:inherit fixed-pitch :foreground "#83a598"))))
- ;'(org-tag ((t (:inherit (shadow fixed-pitch) :weight bold :height 0.8))))
- )
-
-(setq org-pretty-entities t)
-(setq org-hide-emphasis-markers t)
-(setq org-fontify-whole-heading-line t)
-(setq org-tags-column 0)
-;;(require 'org-bullets)
+;; (font-lock-add-keywords 'org-mode
+;;                         '(("^ *\\([-]\\) "
+;;                            (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+;; (setq org-image-actual-width nil)
+;; (setq org-pretty-entities t)
+;; (setq org-hide-emphasis-markers t)
+;; (setq org-fontify-whole-heading-line t)
+;; (setq org-tags-column 0)
 (defun my-org-config ()
-  ;;(org-bullets-mode)
-  (variable-pitch-mode 1)
-  (setq fill-column 100000)
   (local-set-key (kbd "C-c s") 'org-insert-structure-template)
 )
 (add-hook 'org-mode-hook 'my-org-config)
+(add-hook 'org-mode-hook 'org-modern-mode)
 
 ;; GDB mode window config/layout file
 (setq gdb-many-windows t)
@@ -407,23 +372,18 @@ command, and a paremeterized color"
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files '("~/notes/notes.org"))
+ '(custom-safe-themes
+   '("d8011e6c2919f4edfbc233664d9e404e2a2b89483bc8b75011b379c41a82efdf" default))
+ '(ispell-dictionary nil)
  '(org-export-backends '(ascii html icalendar latex md odt))
  '(package-selected-packages
-   '(magit hide-mode-line goto-last-change ansible fontawesome nhexl-mode dockerfile-mode rotate org-link-beautify clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode autothemer)))
+   '(vundo undo-fu-session timu-macos-theme leuven-theme racket-mode magit hide-mode-line goto-last-change ansible fontawesome nhexl-mode dockerfile-mode rotate org-link-beautify clipetty folding idomenu ada-mode csharp-mode flx markdown-mode proof-general unfill auctex graphviz-dot-mode yaml-mode which-key visual-ascii-mode vi-tilde-fringe spacemacs-theme scala-mode rust-mode rainbow-mode popup org-remark org-bullets olivetti mode-line-bell mini-modeline lsp-mode ivy-rich imenu-list hl-anything highlight helm-core go-mode gnu-elpa-keyring-update dracula-theme dedicated counsel company-flx company-auctex color-theme-sanityinc-tomorrow cmake-mode autothemer)))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-block ((t (:inherit fixed-pitch))))
- '(org-code ((t (:inherit (shadow fixed-pitch)))))
- '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
- '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
- '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-property-value ((t (:inherit fixed-pitch))) t)
- '(org-special-keyword ((t (:inherit (font-lock-comment-face fixed-pitch)))))
- '(org-table ((t (:inherit fixed-pitch))))
- '(org-verbatim ((t (:inherit (shadow fixed-pitch))))))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
+ )

@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="neo"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -63,6 +63,8 @@ ZSH_THEME="robbyrussell"
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
+
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -104,7 +106,6 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # Set up i3lock screen
 # echo 'i3lock -c 000000 -n -e' >> /usr/bin/xflock4
-
 
 # Set up i3lock screen
 # echo 'i3lock -c 000000 -n -e' >> /usr/bin/xflock4
@@ -153,11 +154,9 @@ setopt noautopushd
 setopt nopushdtohome
 setopt nopushdignoredups
 setopt pushdsilent
-# Bash compatibilty mode
-autoload bashcompinit
-bashcompinit
 
 # Define static aliases
+alias fd="fdfind -gI"
 alias ta="tmux attach -t"
 alias gef="\gdb -q -x ~/.gefinit"
 alias gdb="gdb -q"
@@ -170,6 +169,7 @@ alias ll='ls -lh'
 alias la='ls -lah'
 #alias grep='grep -H --color=auto'
 alias grep='grep --color=auto'
+alias rgrep='rgrep --color=auto'
 alias grepc='grep --color=yes'
 #alias pushd="pushd ."
 alias peakd='echo $(dirs -l -p | sed -n "2{p;q}")'
@@ -214,7 +214,8 @@ whereami() { eval $PROMPT_COMMAND }
 # Register hook to execute on changed directory
 #add-zsh-hook chpwd whereami
 # FZF config
-export FZF_DEFAULT_OPTS='--height 30% --layout reverse'
+export FZF_DEFAULT_OPTS='--height 30% --layout reverse --color=dark'
+
 # Proxy
 export HTTP_PROXY='http://proxyvip.draper.com:3128'
 export HTTPS_PROXY='http://proxyvip.draper.com:3128'
