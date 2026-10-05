@@ -216,12 +216,6 @@ whereami() { eval $PROMPT_COMMAND }
 # FZF config
 export FZF_DEFAULT_OPTS='--height 30% --layout reverse --color=dark'
 
-# Proxy
-export HTTP_PROXY='http://proxyvip.draper.com:3128'
-export HTTPS_PROXY='http://proxyvip.draper.com:3128'
-# Export terminal for all the colors
-# export TERM=xterm-256color
-
 #### ANYTHING INSIDE THIS SECTION HAPPENS ONLY FOR "REALLY" INTERACTIVE SHELLS
 #### (i.e. those with a tty allocated - not SCP, directly executed SSH commands, etc.)
 # tty -s
